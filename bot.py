@@ -1,7 +1,7 @@
 import telepot
 
-# for now let hardcode test chat
-chats = [-1001072621302]
+# for now let hardcode test chat and private
+chats = [-1001072621302, 29462028]
 
 
 class Bot:

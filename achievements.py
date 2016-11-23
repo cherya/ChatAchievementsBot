@@ -1,3 +1,5 @@
+import re
+
 def reply_from(iid, msg):
     if 'reply_to_message' in msg:
         if msg['reply_to_message']['from']['id'] == iid:
@@ -50,7 +52,6 @@ class FirstMessage(AchievementBase):
     name = 'first message'
 
     def check(self, msg, content_type, global_counters, achievements_counters):
-        print(global_counters['text'])
         if global_counters['text'] > 0:
             return True
 
@@ -82,9 +83,28 @@ class SantaShpaker(AchievementBase):
             if achievements_counters['reply_count'] > 1:
                 return True
 
+emoji_re = re.compile("["
+        u"\U0001F600-\U0001F64F"
+        u"\U0001F300-\U0001F5FF"
+        u"\U0001F680-\U0001F6FF"
+        u"\U0001F1E0-\U0001F1FF"
+                           "]+", flags=re.UNICODE)
+
+class BackTo2007(AchievementBase):
+    name = 'Назад в 2007'
+
+    def check(self, msg, content_type, global_counters, achievements_counters):
+        if 'text' in msg:
+            count = 0
+            for emoji in emoji_re.finditer(msg['text']):
+                s, e = emoji.span()
+                count += e - s
+            return count >= 5
+
 
 registered_achievements = [
     FirstMessage,
     StickerSpammer,
-    SantaShpaker
+    SantaShpaker,
+    BackTo2007
 ]
