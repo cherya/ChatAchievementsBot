@@ -8,7 +8,7 @@ class BaseModel(Model):
 
 
 class User(BaseModel):
-    id = IntegerField(primary_key=True)
+    id = CharField(primary_key=True)
     username = CharField(null=True)
     experience = IntegerField(default=0)
 
@@ -23,7 +23,7 @@ class UserAchievementCounters(BaseModel):
     achievement = ForeignKeyField(Achievement)
     counters = JSONField(null=True)
     achieved = BooleanField(default=False)
-    chat_id = IntegerField()
+    chat_id = CharField()
 
     class Meta:
         primary_key = CompositeKey('user', 'achievement')

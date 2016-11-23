@@ -59,22 +59,12 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
     # for each achievement class create instance, update and check it
     for achievement in achievement_instances:
         achievement_model, created = Achievement.get_or_create(name=achievement.name)
-        achievements_counters = None
-
-        # check if user already get this achievement
-        try:
-            achievements_counters = UserAchievementCounters.get(user=user, achievement=achievement_model)
-            already_achieved = achievements_counters.achieved
-        except DoesNotExist:
-            already_achieved = False
-
-        if not already_achieved:
-            if achievements_counters is None:
-                achievements_counters, created = UserAchievementCounters.get_or_create(user=user,
-                                                                                       achievement=achievement_model,
-                                                                                       chat_id=chat_id)
-
-            new_counters = achievement.get_updates(msg, achievements_counters.counters)
+        achievements_counters, created = UserAchievementCounters.get_or_create(user=user,
+                                                                               achievement=achievement_model,
+                                                                               chat_id=chat_id)
+        # check if user already has this achievement
+        if not achievements_counters.achieved:
+            new_counters = achievement.update(msg, content_type, achievements_counters.counters)
 
             if achievement.check(msg, content_type, global_counters, new_counters):
                 achieved = True

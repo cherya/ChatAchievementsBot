@@ -1,10 +1,7 @@
-import asyncio
 import telepot
-import telepot
-import telepot.namedtuple as nt
 
-
-chats = [-162586002]
+# for now let hardcode test chat
+chats = [-1001072621302]
 
 
 class Bot:
@@ -15,7 +12,8 @@ class Bot:
     def run_forever(self):
         print('Listening ...')
         self.bot.message_loop({
-            'chat': self.handle_message
+            'chat': self.handle_message,
+            'edited_chat': self.handle_edit
         }, run_forever=True)
 
     def handle_message(self, msg):
@@ -24,6 +22,9 @@ class Bot:
 
         if self.controller is not None and chat_id in chats:
             self.controller.handle_message(msg, content_type, chat_id)
+
+    def handle_edit(self):
+        pass
 
     def send_message(self, chat_id, msg):
         self.bot.sendMessage(chat_id, msg)
