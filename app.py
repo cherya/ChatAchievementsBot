@@ -1,6 +1,8 @@
 from bot import Bot
-from updater import Updater
+from db import database
 from models import *
+
+import updater
 from pprint import pprint
 import json
 
@@ -12,15 +14,17 @@ class App:
     bot = None
     updater = None
 
-    def __init__(self, bot, updater):
+    def __init__(self, bot):
         self.bot = bot(config['token'], self)
-        self.updater = updater(self)
 
-    def run(self):
-        self.bot.run_forever()
+    def run(self, forever=False):
+        self.bot.run(forever)
 
     def handle_message(self, msg, content_type, chat_id):
-        self.updater.message_update(msg, content_type, chat_id)
+        database.connect()
+        message = Messages.create(id=msg['message_id'], message=msg, chat_id=chat_id, content_type=content_type)
+        message.save()
+        database.close()
         pprint(msg)
 
     def handle_achievement(self, achieved, user, achievements):
@@ -34,5 +38,6 @@ class App:
                 text = '{0} achieved \'{1}\''.format(name, achievement.name)
                 self.bot.send_message(LOG_CHAT_ID, text)
 
-app = App(Bot, Updater)
-app.run()
+
+app = App(Bot)
+app.run(forever=True)

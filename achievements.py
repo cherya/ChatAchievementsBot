@@ -1,7 +1,15 @@
 import re
 
+emoji_re = re.compile("["
+        u"\U0001F600-\U0001F64F"
+        u"\U0001F300-\U0001F5FF"
+        u"\U0001F680-\U0001F6FF"
+        u"\U0001F1E0-\U0001F1FF"
+                           "]+", flags=re.UNICODE)
+
+
 def reply_from(iid, msg):
-    if 'reply_to_message' in msg:
+    if is_reply(msg):
         if msg['reply_to_message']['from']['id'] == iid:
             return True
     return False
@@ -16,6 +24,17 @@ def msg_contains(msg, substr):
 
     return contains
 
+def is_reply(msg):
+    if 'reply_to_message' in msg:
+        return True
+    return False
+
+def is_self_reply(msg):
+    if is_reply(msg):
+        reply = msg['reply_to_message']
+        if reply['from']['id'] == msg['from']['id']:
+            return True
+    return False
 
 class AchievementBase:
     name = None
@@ -49,7 +68,7 @@ class AchievementBase:
 
 
 class FirstMessage(AchievementBase):
-    name = 'first message'
+    name = 'Добро пожаловать'
 
     def check(self, msg, content_type, global_counters, achievements_counters):
         if global_counters['text'] > 0:
@@ -80,15 +99,8 @@ class SantaShpaker(AchievementBase):
 
     def check(self, msg, content_type, global_counters, achievements_counters):
         if achievements_counters is not None:
-            if achievements_counters['reply_count'] > 1:
-                return True
+            return achievements_counters['reply_count'] > 1
 
-emoji_re = re.compile("["
-        u"\U0001F600-\U0001F64F"
-        u"\U0001F300-\U0001F5FF"
-        u"\U0001F680-\U0001F6FF"
-        u"\U0001F1E0-\U0001F1FF"
-                           "]+", flags=re.UNICODE)
 
 class BackTo2007(AchievementBase):
     name = 'Назад в 2007'
@@ -102,9 +114,33 @@ class BackTo2007(AchievementBase):
             return count >= 5
 
 
+class WhyDoYouAsk(AchievementBase):
+    name = 'А ви таки зачем интересуетесь?'
+
+    def update(self, msg, content_type, achievements_counters):
+        count = 0
+        if is_reply(msg) and content_type == 'text':
+            reply = msg['reply_to_message']
+            if not is_self_reply(msg) and 'text' in reply:
+                if reply['text'][-1] == '?' and msg['text'][-1] == '?' and len(reply['text']) > 4 and len(msg['text']) > 4:
+                    if achievements_counters is None:
+                        achievements_counters = {
+                            'questions_count': 0
+                        }
+                    achievements_counters['questions_count'] += 1
+        return achievements_counters
+
+    def check(self, msg, content_type, global_counters, achievements_counters):
+        if achievements_counters is not None:
+            return achievements_counters['questions_count'] > 5
+
+
 registered_achievements = [
     FirstMessage,
     StickerSpammer,
     SantaShpaker,
-    BackTo2007
+    BackTo2007,
+    WhyDoYouAsk
 ]
+
+__all__ = ['registered_achievements']

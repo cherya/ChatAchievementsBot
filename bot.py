@@ -9,12 +9,12 @@ class Bot:
         self.bot = telepot.Bot(token)
         self.controller = controller
 
-    def run_forever(self):
+    def run(self, forever=True):
         print('Listening ...')
         self.bot.message_loop({
             'chat': self.handle_message,
             'edited_chat': self.handle_edit
-        }, run_forever=True)
+        }, run_forever=forever)
 
     def handle_message(self, msg):
         flavor = telepot.flavor(msg)
@@ -28,4 +28,5 @@ class Bot:
 
     def send_message(self, chat_id, msg):
         self.bot.sendMessage(chat_id, msg)
+
 

@@ -2,22 +2,21 @@ from models import *
 from achievements import registered_achievements
 from db import database
 
-
 achievement_instances = list(map((lambda achv: achv()), registered_achievements))
 
 
-class Updater:
-    controller = None
-
-    def __init__(self, controller):
-        self.controller = controller
-
-    def message_update(self, msg, content_type, chat_id):
-        database.connect()
+def update(controller):
+    database.connect()
+    messages = Messages.select().order_by(Messages.date)
+    for message in messages:
+        msg = message.message
+        content_type = message.content_type
+        chat_id = message.chat_id
         counters = get_user_counters(msg, content_type)
         achieved, user, achievements = trigger_achievements(counters, msg, content_type, chat_id)
-        self.controller.handle_achievement(achieved, user, achievements)
-        database.close()
+        controller.handle_achievement(achieved, user, achievements)
+    Messages.delete().where(Messages.id.in_(messages)).execute()
+    database.close()
 
 
 def get_user_counters(msg, content_type):
@@ -75,3 +74,6 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
             achievements_counters.save()
 
     return achieved, user, new_achievements
+
+
+__all__ = ['update']

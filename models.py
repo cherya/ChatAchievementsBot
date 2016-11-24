@@ -1,5 +1,6 @@
 from playhouse.postgres_ext import *
 from db import database
+from datetime import datetime
 
 
 class BaseModel(Model):
@@ -51,6 +52,15 @@ class UserCounters(BaseModel):
     # last_enter_chat = IntegerField(default=0)
 
 
+class Messages(BaseModel):
+    id = PrimaryKeyField()
+    message = JSONField()
+    date = DateTimeField(default=datetime.now)
+    chat_id = CharField()
+    content_type = CharField()
+
 database.connect()
-database.create_tables([User, Achievement, UserAchievementCounters, UserCounters], safe=True)
+database.create_tables([User, Achievement, UserAchievementCounters, UserCounters, Messages], safe=True)
 database.close()
+
+__all__ = ['User', 'Achievement', 'UserAchievementCounters', 'UserCounters', 'Messages']
