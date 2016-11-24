@@ -1,3 +1,4 @@
 ChatAchievementsBot
 Peewee==2.8.5
 telepot==10.1
+psycopg2==2.6.1
