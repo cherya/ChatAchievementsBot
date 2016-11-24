@@ -1,6 +1,7 @@
 from bot import Bot
 from db import database
 from models import *
+import time
 
 import updater
 from pprint import pprint
@@ -17,8 +18,8 @@ class App:
     def __init__(self, bot):
         self.bot = bot(config['token'], self)
 
-    def run(self, forever=False):
-        self.bot.run(forever)
+    def run(self):
+        self.bot.run()
 
     def handle_message(self, msg, content_type, chat_id):
         database.connect()
@@ -40,4 +41,9 @@ class App:
 
 
 app = App(Bot)
-app.run(forever=True)
+app.run()
+
+while True:
+    print('updating...')
+    updater.update(app)
+    time.sleep(60)

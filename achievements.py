@@ -79,7 +79,6 @@ class StickerSpammer(AchievementBase):
     name = 'sticker spammer'
 
     def check(self, msg, content_type, global_counters, achievements_counters):
-        print(global_counters['sticker'])
         if global_counters['sticker'] >= 10:
             return True
 
