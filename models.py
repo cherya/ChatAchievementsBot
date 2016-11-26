@@ -22,9 +22,10 @@ class Achievement(BaseModel):
 class UserAchievementCounters(BaseModel):
     user = ForeignKeyField(User)
     achievement = ForeignKeyField(Achievement)
+    level = IntegerField(default=0)
     counters = JSONField(null=True)
-    achieved = BooleanField(default=False)
-    chat_id = CharField()
+    value = FloatField(default=0)
+    # chat_id = CharField()
 
     class Meta:
         primary_key = CompositeKey('user', 'achievement')

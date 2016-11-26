@@ -8,18 +8,21 @@ achievement_instances = list(map((lambda achv: achv()), registered_achievements)
 def update(controller):
     database.connect()
     messages = Messages.select().order_by(Messages.date)
+    # for every new message
     for message in messages:
         msg = message.message
         content_type = message.content_type
         chat_id = message.chat_id
-        counters = get_user_counters(msg, content_type)
+        # update global counters
+        counters = update_user_counters(msg, content_type)
+        # check is any achievement triggered
         achieved, user, achievements = trigger_achievements(counters, msg, content_type, chat_id)
         controller.handle_achievement(achieved, user, achievements)
     Messages.delete().where(Messages.id.in_(messages)).execute()
     database.close()
 
 
-def get_user_counters(msg, content_type):
+def update_user_counters(msg, content_type):
     usr_id = msg['from']['id']
     username = None
     if 'username' in msg['from']:
@@ -32,7 +35,7 @@ def get_user_counters(msg, content_type):
 
     if 'reply_to_message' in msg:
         counters.reply_to_message += 1
-    # chat is actually group in telegram terms
+    # chat is actually channel in telegram terms
     if 'forward_from_chat' in msg:
         counters.forward_from_channel += 1
 
@@ -59,19 +62,24 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
     for achievement in achievement_instances:
         achievement_model, created = Achievement.get_or_create(name=achievement.name)
         achievements_counters, created = UserAchievementCounters.get_or_create(user=user,
-                                                                               achievement=achievement_model,
-                                                                               chat_id=chat_id)
-        # check if user already has this achievement
-        if not achievements_counters.achieved:
-            new_counters = achievement.update(msg, content_type, achievements_counters.counters)
+                                                                               achievement=achievement_model)
 
-            if achievement.check(msg, content_type, global_counters, new_counters):
+        new_counters = achievement.update(msg, content_type, achievements_counters.counters)
+        triggered = achievement.check(msg, content_type, {'global': global_counters, 'local': new_counters}, )
+
+        if triggered:
+            achievements_counters.value += 1
+            new_level = achievement.get_level(achievements_counters.value)
+            if not new_level == achievements_counters.level:
+                new_achievements.append({
+                    'name': achievement.name,
+                    'level': new_level
+                })
                 achieved = True
-                achievements_counters.achieved = True
-                new_achievements.append(achievement)
+                achievements_counters.level = new_level
 
-            achievements_counters.counters = new_counters
-            achievements_counters.save()
+        achievements_counters.counters = new_counters
+        achievements_counters.save()
 
     return achieved, user, new_achievements
 
