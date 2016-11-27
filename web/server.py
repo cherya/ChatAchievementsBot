@@ -47,7 +47,13 @@ def user_detail(user_id, **kwargs):
 @app.route('/')
 def homepage(**kwargs):
     counters = UserCounters.select()
-    last_achievements = UserAchievementCounters.select().order_by(UserAchievementCounters.date_achieved)[:10]
+
+    last_achievements = UserAchievementCounters.select().where(
+        UserAchievementCounters.level > 0
+    ).order_by(
+        UserAchievementCounters.date_achieved
+    )[:10]
+
     kwargs['counters_list'] = counters
     kwargs['achievements_list'] = last_achievements
     return render_template('homepage.html', **kwargs)
