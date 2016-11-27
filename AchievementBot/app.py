@@ -1,7 +1,7 @@
-from bot import Bot
-from models.models import *
-from models.db import database
-from updater import update
+from .bot import Bot
+from ..models.models import *
+from ..models.db import database
+from .updater import update
 
 import time
 from pprint import pprint
