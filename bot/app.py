@@ -43,11 +43,12 @@ class App:
                 self.bot.send_message(LOG_CHAT_ID, text)
 
 
-app = App(Bot)
-# run message loop
-app.run()
+def run_bot():
+    app = App(Bot)
+    # run message loop
+    app.run()
 
-while True:
-    # every UPDATE_TIMEOUT read new messages, count them, and delete
-    update(app)
-    time.sleep(UPDATE_TIMEOUT)
+    while True:
+        # every UPDATE_TIMEOUT read new messages, count them, and delete
+        update(app)
+        time.sleep(UPDATE_TIMEOUT)

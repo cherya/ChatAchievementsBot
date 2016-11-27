@@ -1,4 +1,2 @@
-from .db import *
+from .db import database
 from .models import *
-
-__name__ = 'models'

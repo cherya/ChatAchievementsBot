@@ -1,6 +1,6 @@
 from models.db import database
 from models.models import *
-from achievements import registered_achievements
+from .achievements import registered_achievements
 
 from datetime import datetime
 
