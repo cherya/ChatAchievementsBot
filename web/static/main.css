@@ -1,0 +1,31 @@
+html, body{
+}
+
+.table{
+    border-collapse: collapse;
+}
+
+.table th {
+    background: #ffbd75;
+    padding: 4px;
+}
+
+.table td {
+    border: 1px solid #eeeeee;
+    padding: 3px;
+    text-align: right;
+}
+
+.table td:first-child{
+    background: #eeeeee;
+    text-align: left;
+}
+
+.last-achievements{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.counters {
+    display: inline-block;
+}

@@ -1,12 +1,44 @@
-{% extends "layout.html" %}
-{% block body %}
-  <h2>Public Timeline</h2>
-  <ul>
-    {% for user in counters %}
-      <li>
-          {% user.id %}
-      </li>
+<table class="table">
+    <thead>
+        <th>User</th>
+        <th>Messages</th>
+        <th>Texts</th>
+        <th>Stickers</th>
+        <th>Photos</th>
+        <th>Videos</th>
+        <th>Documents</th>
+        <th>Audios</th>
+        <th>Voices</th>
+        <th>Locations</th>
+        <th>Games</th>
+        <th>Replies</th>
+        <th>Avg. msg len.</th>
+        <th>Sum msg len.</th>
+    </thead>
+    {% for counter in counters_list %}
+        <tr>
+            <td>
+                <a href="{{ url_for('user_detail', user_id=counter.user.id) }}">
+                    {% if counter.user.username %}
+                        @{{ counter.user.username }}
+                    {% else %}
+                        {{ counter.user.id }}
+                    {% endif %}
+                </a>
+            </td>
+            <td>{{ counter.messages }}</td>
+            <td>{{ counter.text }}</td>
+            <td>{{ counter.sticker }}</td>
+            <td>{{ counter.photo }}</td>
+            <td>{{ counter.video }}</td>
+            <td>{{ counter.document }}</td>
+            <td>{{ counter.audio }}</td>
+            <td>{{ counter.voice }}</td>
+            <td>{{ counter.location }}</td>
+            <td>{{ counter.game }}</td>
+            <td>{{ counter.reply_to_message }}</td>
+            <td>{{ counter.average_msg_length }}</td>
+            <td>{{ counter.sum_message_length }}</td>
+        </tr>
     {% endfor %}
-  </ul>
-  {% include "includes/pagination.html" %}
-{% endblock %}
+</table>

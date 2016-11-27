@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<table class="table">
+    <thead>
+        <th>User</th>
+        <th>Achievement</th>
+        <th>Date</th>
+    </thead>
+    {% for achievement in achievements_list %}
+        <tr>
+            <td>
+                {% if achievement.user.username %}
+                    @{{ achievement.user.username }}
+                {% else %}
+                    {{ achievement.user.id }}
+                {% endif %}
+            </td>
+            <td>{{achievement.achievement.name}}</td>
+            <td>{{achievement.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</td>
+        </tr>
+    {% endfor %}
+</table>
