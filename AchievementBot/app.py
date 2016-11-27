@@ -1,7 +1,7 @@
 from bot import Bot
-from db import database
-from models import *
-import updater
+from models.models import *
+from models.db import database
+from updater import update
 
 import time
 from pprint import pprint
@@ -49,5 +49,5 @@ app.run()
 
 while True:
     # every UPDATE_TIMEOUT read new messages, count them, and delete
-    updater.update(app)
+    update(app)
     time.sleep(UPDATE_TIMEOUT)

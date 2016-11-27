@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Public Timeline</h2>
+  <ul>
+    {% for user in counters %}
+      <li>
+          {% user.id %}
+      </li>
+    {% endfor %}
+  </ul>
+  {% include "includes/pagination.html" %}
+{% endblock %}

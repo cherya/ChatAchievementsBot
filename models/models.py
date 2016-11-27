@@ -1,5 +1,5 @@
 from playhouse.postgres_ext import *
-from db import database
+from .db import database
 from datetime import datetime
 
 
@@ -16,6 +16,7 @@ class User(BaseModel):
 
 class Achievement(BaseModel):
     id = PrimaryKeyField()
+    levels = ArrayField(null=True)
     name = CharField(default='achievement', unique=True)
 
 
@@ -25,6 +26,7 @@ class UserAchievementCounters(BaseModel):
     level = IntegerField(default=0)
     counters = JSONField(null=True)
     value = FloatField(default=0)
+    date_achieved = DateTimeField(null=True)
     # chat_id = CharField()
 
     class Meta:

@@ -1,6 +1,8 @@
-from models import *
+from models.db import database
+from models.models import *
 from achievements import registered_achievements
-from db import database
+
+from datetime import datetime
 
 achievement_instances = list(map((lambda achv: achv()), registered_achievements))
 
@@ -22,6 +24,7 @@ def update(controller):
     database.close()
 
 
+# update global counters
 def update_user_counters(msg, content_type):
     usr_id = msg['from']['id']
     username = None
@@ -60,11 +63,17 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
 
     # for each achievement class create instance, update and check it
     for achievement in achievement_instances:
+        # get or create achievement model
         achievement_model, created = Achievement.get_or_create(name=achievement.name)
+        achievement_model.levels = achievement.levels
+        achievement_model.save()
+
         achievements_counters, created = UserAchievementCounters.get_or_create(user=user,
                                                                                achievement=achievement_model)
 
+        # get updated achievement counters
         new_counters = achievement.update(msg, content_type, achievements_counters.counters)
+        # check if achievement triggered
         triggered = achievement.check(msg, content_type, {'global': global_counters, 'local': new_counters}, )
 
         if triggered:
@@ -77,6 +86,7 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
                 })
                 achieved = True
                 achievements_counters.level = new_level
+                achievements_counters.date_achieved = datetime.now()
 
         achievements_counters.counters = new_counters
         achievements_counters.save()
