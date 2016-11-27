@@ -52,4 +52,6 @@ def homepage(**kwargs):
     kwargs['achievements_list'] = last_achievements
     return render_template('homepage.html', **kwargs)
 
-app.run(host='0.0.0.0')
+
+def run_server(port=5000):
+    app.run(host='0.0.0.0', port=port)
