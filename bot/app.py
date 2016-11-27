@@ -1,13 +1,11 @@
-from .tlgtm_bot import Bot
+from .bot import Bot
 from models.models import *
 from models.db import database
 from .updater import update
 
 import time
 from pprint import pprint
-import json
 
-config = json.load(open('config.json', encoding='utf-8'))
 LOG_CHAT_ID = '@addmetoachievements'
 UPDATE_TIMEOUT = 1
 
@@ -16,8 +14,8 @@ class App:
     bot = None
     updater = None
 
-    def __init__(self, bot):
-        self.bot = bot(config['token'], self)
+    def __init__(self, token):
+        self.bot = Bot(token, self)
 
     def run(self):
         self.bot.run()
@@ -43,8 +41,8 @@ class App:
                 self.bot.send_message(LOG_CHAT_ID, text)
 
 
-def run_bot():
-    app = App(Bot)
+def run_bot(token):
+    app = App(token)
     # run message loop
     app.run()
 
