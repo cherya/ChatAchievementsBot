@@ -38,7 +38,10 @@ def after_request(response):
 @app.route('/users/<user_id>/')
 def user_detail(user_id, **kwargs):
     user = get_object_or_404(User, User.id == user_id)
-    user_achievements = UserAchievementCounters.select().where(UserAchievementCounters.user == user)
+    user_achievements = UserAchievementCounters.select().where(
+        UserAchievementCounters.user == user,
+        UserAchievementCounters.level > 0
+    )
 
     kwargs['achievements_list'] = user_achievements
     return render_template('user_detail.html', **kwargs)
