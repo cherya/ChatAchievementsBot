@@ -1,7 +1,7 @@
-from bot.tlgtm_bot import Bot
+from .tlgtm_bot import Bot
 from models.models import *
 from models.db import database
-from bot.updater import update
+from .updater import update
 
 import time
 from pprint import pprint
