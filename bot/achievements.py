@@ -76,6 +76,13 @@ class AchievementBase:
             return 0
 
 
+class Welcome(AchievementBase):
+    name = 'Добро пожаловать'
+    levels = [1]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return content_type == 'text'
+
 class Flooder(AchievementBase):
     name = 'Флудер'
     levels = [100, 1000, 10000]
@@ -86,19 +93,19 @@ class Flooder(AchievementBase):
 
 class StickerSpammer(AchievementBase):
     name = 'Стикер-спаммер'
-    levels = [10, 50, 100]
+    levels = [10, 50, 200]
 
     def check(self, msg, content_type, counters, cur_level):
         return content_type == 'sticker'
 
 
-class SantaShpaker(AchievementBase):
-    name = 'Santa Shpaker'
-    levels = [2, 5, 10]
+class PontiusPilatus(AchievementBase):
+    name = 'Понтий Пилат'
+    levels = [10, 100, 1000]
 
     def check(self, msg, content_type, counters, cur_level):
-        # it's shpaker id
-        return reply_from(9429534, msg)
+        AN = 59645208
+        return reply_from(AN, msg)
 
 
 class BackTo2007(AchievementBase):
@@ -186,15 +193,25 @@ class FastestHandInTheWest(AchievementBase):
             return msg['date'] - msg['reply_to_message']['date'] <= 5
 
 
+class Ametist(AchievementBase):
+    name = 'Я у мамы аметист'
+    levels = [5, 10, 100]
+
+    def check(self, msg, content_type, counters, cur_level):
+        god = msg_contains(msg, 'Бог') or msg_contains(msg, 'бог')
+        return god
+
 registered_achievements = [
+    Welcome,
     Flooder,
     StickerSpammer,
-    SantaShpaker,
+    PontiusPilatus,
     BackTo2007,
     WhyDoYouAsk,
     Dzhugashvili,
     KernelPanic,
-    FastestHandInTheWest
+    FastestHandInTheWest,
+    Ametist
 ]
 
 __all__ = ['registered_achievements']
