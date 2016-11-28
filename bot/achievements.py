@@ -183,7 +183,7 @@ class FastestHandInTheWest(AchievementBase):
 
     def check(self, msg, content_type, counters, cur_level):
         if is_reply(msg):
-            return msg['date'] - msg['reply']['date'] <= 5
+            return msg['date'] - msg['reply_to_message']['date'] <= 5
 
 
 registered_achievements = [
