@@ -74,7 +74,10 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
         # get updated achievement counters
         new_counters = achievement.update(msg, content_type, achievements_counters.counters)
         # check if achievement triggered
-        triggered = achievement.check(msg, content_type, {'global': global_counters, 'local': new_counters}, )
+        triggered = achievement.check(msg,
+                                      content_type,
+                                      {'global': global_counters, 'local': new_counters},
+                                      achievements_counters.level)
 
         if triggered:
             achievements_counters.value += 1

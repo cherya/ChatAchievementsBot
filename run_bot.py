@@ -1,4 +1,4 @@
-from bot.app import run_bot
+from bot.bot import run_bot
 import json
 
 config = json.load(open('config.json', encoding='utf-8'))

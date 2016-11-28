@@ -54,7 +54,7 @@ def homepage(**kwargs):
     last_achievements = UserAchievementCounters.select().where(
         UserAchievementCounters.level > 0
     ).order_by(
-        UserAchievementCounters.date_achieved
+        -UserAchievementCounters.date_achieved
     )[:10]
 
     kwargs['counters_list'] = counters

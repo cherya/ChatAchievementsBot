@@ -65,7 +65,7 @@ class AchievementBase:
     # }
     # achievement_counters = any dict
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         return False
 
     def get_level(self, count):
@@ -81,19 +81,19 @@ class AchievementBase:
             return 0
 
 
-class FirstMessage(AchievementBase):
-    name = 'Добро пожаловать'
-    levels = [1, 5, 10]
+class Flooder(AchievementBase):
+    name = 'Флудер'
+    levels = [100, 1000, 10000]
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         return content_type == 'text'
 
 
 class StickerSpammer(AchievementBase):
-    name = 'sticker spammer'
-    levels = [2, 5, 10]
+    name = 'Стикер-спаммер'
+    levels = [10, 50, 100]
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         return content_type == 'sticker'
 
 
@@ -101,7 +101,7 @@ class SantaShpaker(AchievementBase):
     name = 'Santa Shpaker'
     levels = [2, 5, 10]
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         # it's shpaker id
         return reply_from(9429534, msg)
 
@@ -110,7 +110,7 @@ class BackTo2007(AchievementBase):
     name = 'Назад в 2007'
     levels = [2, 5, 10]
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         if 'text' in msg:
             count = 0
             for emoji in emoji_re.finditer(msg['text']):
@@ -121,9 +121,9 @@ class BackTo2007(AchievementBase):
 
 class WhyDoYouAsk(AchievementBase):
     name = 'А ви таки зачем интересуетесь?'
-    levels = [1, 2, 3]
+    levels = [1, 10, 100]
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         count = 0
         if is_reply(msg) and content_type == 'text':
             reply = msg['reply_to_message']
@@ -134,7 +134,7 @@ class WhyDoYouAsk(AchievementBase):
 
 class Dzhugashvili(AchievementBase):
     name = 'Джугашвили'
-    levels = [1]
+    levels = [1, 5, 10]
 
     def update(self, msg, content_type, achievements_counters):
         if achievements_counters is None:
@@ -158,18 +158,38 @@ class Dzhugashvili(AchievementBase):
 
         return achievements_counters
 
-    def check(self, msg, content_type, counters):
+    def check(self, msg, content_type, counters, cur_level):
         return counters['local']['links_in_row'] >= 3
 
 
+class KernelPanic(AchievementBase):
+    name = 'Kernel Panic'
+    levels = [2, 4, 6]
+
+    def check(self, msg, content_type, counters, cur_level):
+        text = ''
+        count = 0
+        if 'text' in msg:
+            text = msg['text']
+        if 'caption' in msg:
+            text = msg['caption']
+
+        for c in text:
+            if c == 'A' or c == 'a' or c == 'А' or c == 'а':
+                count += 1
+            else:
+                return False
+        return count >= 5
+
 
 registered_achievements = [
-    FirstMessage,
+    Flooder,
     StickerSpammer,
     SantaShpaker,
     BackTo2007,
     WhyDoYouAsk,
-    Dzhugashvili
+    Dzhugashvili,
+    KernelPanic
 ]
 
 __all__ = ['registered_achievements']
