@@ -10,9 +10,7 @@ emoji_re = re.compile("["
 
 def reply_from(iid, msg):
     if is_reply(msg):
-        if msg['reply_to_message']['from']['id'] == iid:
-            return True
-    return False
+        return msg['reply_to_message']['from']['id'] == iid
 
 
 def msg_contains(msg, substr):
@@ -25,15 +23,12 @@ def msg_contains(msg, substr):
     return contains
 
 def is_reply(msg):
-    if 'reply_to_message' in msg:
-        return True
-    return False
+    return 'reply_to_message' in msg
 
 def is_self_reply(msg):
     if is_reply(msg):
         reply = msg['reply_to_message']
-        if reply['from']['id'] == msg['from']['id']:
-            return True
+        return reply['from']['id'] == msg['from']['id']
     return False
 
 
@@ -164,7 +159,7 @@ class Dzhugashvili(AchievementBase):
 
 class KernelPanic(AchievementBase):
     name = 'Kernel Panic'
-    levels = [2, 4, 6]
+    levels = [5, 50, 500]
 
     def check(self, msg, content_type, counters, cur_level):
         text = ''
@@ -182,6 +177,15 @@ class KernelPanic(AchievementBase):
         return count >= 5
 
 
+class FastestHandInTheWest(AchievementBase):
+    name = 'Быстрая рука'
+    levels = [1, 10, 100]
+
+    def check(self, msg, content_type, counters, cur_level):
+        if is_reply(msg):
+            return msg['date'] - msg['reply']['date'] <= 5
+
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -189,7 +193,8 @@ registered_achievements = [
     BackTo2007,
     WhyDoYouAsk,
     Dzhugashvili,
-    KernelPanic
+    KernelPanic,
+    FastestHandInTheWest
 ]
 
 __all__ = ['registered_achievements']
