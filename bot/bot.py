@@ -67,7 +67,7 @@ class App:
                 name = user.id
                 if user.username is not None:
                     name = '@' + user.username
-                text = '{0} achieved \'{1}\' LVL.{2}'.format(name, achievement['name'], achievement['level'])
+                text = '{0} получил \'{1}\' LVL.{2}'.format(name, achievement['name'], achievement['level'])
                 self.bot.send_message(LOG_CHAT_ID, text)
 
 
