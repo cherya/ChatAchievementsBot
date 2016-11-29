@@ -13,15 +13,19 @@ def reply_from(iid, msg):
         return msg['reply_to_message']['from']['id'] == iid
 
 
-def msg_contains(msg, substr, ignor_case=False):
+def msg_contains(msg, substr):
     contains = False
-    ignor_case = re.IGNORECASE if ignor_case else 0
     text = ''
     if 'text' in msg:
         text = msg['text']
     if 'caption' in msg:
         text = msg['caption']
-    contains = re.search(substr, text, ignor_case|re.UNICODE)
+
+    text = text.upper()
+    substr = substr.upper()
+    
+    contains = text.find(substr) > -1
+
     return contains
 
 def is_reply(msg):
@@ -201,7 +205,7 @@ class Ametist(AchievementBase):
     levels = [5, 10, 100]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains(msg, ' бог', ignor_case=True)
+        return msg_contains(msg, ' бог')
 
 class PhotoReporter(AchievementBase):
     name = 'Фоторепортер'
@@ -215,7 +219,7 @@ class TNN(AchievementBase):
     levels = [1, 5, 20]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains(msg, ' тнн ', ignor_case=True) or msg_contains(msg, ' тян не нужны ', ignor_case=True)
+        return msg_contains(msg, ' тнн ') or msg_contains(msg, ' тян не нужны ')
 
 registered_achievements = [
     Welcome,
