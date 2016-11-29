@@ -16,11 +16,12 @@ def reply_from(iid, msg):
 def msg_contains(msg, substr, ignor_case=False):
     contains = False
     ignor_case = re.IGNORECASE if ignor_case else 0
+    text = ''
     if 'text' in msg:
-        contains = re.search(substr, msg['text'], ignor_case)
+        text = msg['text']
     if 'caption' in msg:
-        contains = re.search(substr, msg['caption'], ignor_case)
-
+        text = msg['caption']
+    contains = re.search(substr, text, ignor_case|re.UNICODE)
     return contains
 
 def is_reply(msg):
