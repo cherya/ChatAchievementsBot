@@ -7,7 +7,7 @@ import time
 from pprint import pprint
 
 LOG_CHAT_ID = '@addmetoachievements'
-UPDATE_TIMEOUT = 1
+UPDATE_TIMEOUT = 30
 
 
 # for now let hardcode test chat and private
@@ -67,7 +67,7 @@ class App:
                 name = user.id
                 if user.username is not None:
                     name = '@' + user.username
-                text = '{0} получилc \'{1}\' LVL.{2}'.format(name, achievement['name'], achievement['level'])
+                text = '{0} получил \'{1}\' {2}го уровня'.format(name, achievement['name'], achievement['level'])
                 self.bot.send_message(LOG_CHAT_ID, text)
 
 

@@ -2,6 +2,7 @@
     <thead>
         <th>User</th>
         <th>Achievement</th>
+        <th>Lvl</th>
         <th>Date</th>
     </thead>
     {% for achievement in achievements_list %}
@@ -14,6 +15,7 @@
                 {% endif %}
             </td>
             <td>{{achievement.achievement.name}}</td>
+            <td>{{achievement.level}}</td>
             <td>{{achievement.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</td>
         </tr>
     {% endfor %}

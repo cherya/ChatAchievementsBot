@@ -13,12 +13,13 @@ def reply_from(iid, msg):
         return msg['reply_to_message']['from']['id'] == iid
 
 
-def msg_contains(msg, substr):
+def msg_contains(msg, substr, ignor_case=False):
     contains = False
+    ignor_case = re.IGNORECASE if ignor_case else 0
     if 'text' in msg:
-        contains = msg['text'].find(substr) > -1
+        contains = re.search(substr, msg['text'], ignor_case)
     if 'caption' in msg:
-        contains = msg['caption'].find(substr) > -1
+        contains = re.search(substr, msg['caption'], ignor_case)
 
     return contains
 
@@ -39,6 +40,7 @@ class AchievementBase:
     def update(self, msg, content_type, achievements_counters):
         return achievements_counters
 
+    # TODO: const
     # global_counters = {
     # 'forward_from_channel': int,
     # 'text': int,
@@ -198,8 +200,21 @@ class Ametist(AchievementBase):
     levels = [5, 10, 100]
 
     def check(self, msg, content_type, counters, cur_level):
-        god = msg_contains(msg, 'Бог') or msg_contains(msg, 'бог')
-        return god
+        return msg_contains(msg, ' бог', ignor_case=True)
+
+class PhotoReporter(AchievementBase):
+    name = 'Фоторепортер'
+    levels = [5, 50, 500]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return content_type == 'photo'
+
+class TNN(AchievementBase):
+    name = 'Девственник'
+    levels = [1, 5, 20]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains(msg, ' тнн ', ignor_case=True) or msg_contains(msg, ' тян не нужны ', ignor_case=True)
 
 registered_achievements = [
     Welcome,
@@ -211,7 +226,9 @@ registered_achievements = [
     Dzhugashvili,
     KernelPanic,
     FastestHandInTheWest,
-    Ametist
+    Ametist,
+    PhotoReporter,
+    TNN
 ]
 
 __all__ = ['registered_achievements']
