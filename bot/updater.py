@@ -53,6 +53,7 @@ def update_user_counters(msg, content_type):
     elif content_type == 'left_chat_member':
         counters.last_left_chat = msg['date']
 
+    user.save()
     counters.save()
     return counters.__dict__['_data']
 
