@@ -11,7 +11,11 @@ UPDATE_TIMEOUT = 30
 
 
 # for now let hardcode test chat and private
-chats = [-1001072621302, 29462028]
+# TEST_CHAT_ID = -1001072621302
+
+ADDMETO_CHAT_ID = -1001005702961
+
+chats = [ADDMETO_CHAT_ID, 29462028]
 
 
 class Bot:
