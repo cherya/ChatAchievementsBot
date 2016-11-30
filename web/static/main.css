@@ -25,6 +25,7 @@ header{
 
 .main-content{
     margin: 10px;
+    overflow: auto;
 }
 
 .table{

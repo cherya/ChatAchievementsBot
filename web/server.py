@@ -52,13 +52,15 @@ def user_detail(user_id, **kwargs):
 
 @app.route('/')
 def homepage(**kwargs):
-    counters = UserCounters.select()
+    counters = UserCounters.select().order_by(
+        -UserCounters.messages
+    )
 
     last_achievements = UserAchievementCounters.select().where(
         UserAchievementCounters.level > 0
     ).order_by(
         -UserAchievementCounters.date_achieved
-    )[:20]
+    )[:10]
 
     total = {
         'user': 0,
