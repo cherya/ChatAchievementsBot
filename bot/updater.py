@@ -30,7 +30,8 @@ def update_user_counters(msg, content_type):
     username = None
     if 'username' in msg['from']:
         username = msg['from']['username']
-    user, created = User.get_or_create(id=usr_id, username=username)
+    user, created = User.get_or_create(id=usr_id)
+    user.username = username
     counters, created = UserCounters.get_or_create(user=user)
 
     counters.__dict__['_data']['messages'] += 1
