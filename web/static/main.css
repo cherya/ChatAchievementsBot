@@ -6,7 +6,7 @@ html, body{
 }
 
 .table th {
-    background: #ffdaa1;
+    background-color: wheat;
     padding: 4px;
 }
 
@@ -17,11 +17,11 @@ html, body{
 }
 
 .table tr:hover td{
-    background-color: #eeeeee;
+    background-color: #eeeefe;
 }
 
 .table td:first-child{
-    background: #eeeeee;
+    background-color: #eeeeee;
     text-align: left;
 }
 
@@ -32,4 +32,8 @@ html, body{
 
 .counters {
     display: inline-block;
+}
+
+.counters .table tr:last-child td{
+    background-color: aliceblue;
 }

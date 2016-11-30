@@ -57,6 +57,23 @@ def homepage(**kwargs):
         -UserAchievementCounters.date_achieved
     )[:10]
 
+    total = {
+        'user': 0,
+    }
+
+    for counter in counters:
+        counter_dict = counter.__dict__['_data']
+        for field in counter_dict:
+            if not field == 'user':
+                if field in total:
+                    total[field] += counter_dict[field]
+                else:
+                    total[field] = counter_dict[field]
+        total['user'] += 1
+
+    total['average_msg_length'] = round(total['average_msg_length'] / total['user'], 2)
+
+    kwargs['total'] = total
     kwargs['counters_list'] = counters
     kwargs['achievements_list'] = last_achievements
     return render_template('homepage.html', **kwargs)

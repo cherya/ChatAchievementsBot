@@ -46,7 +46,7 @@ def update_user_counters(msg, content_type):
         counters.text += 1
         text = msg['text']
         counters.sum_message_length += len(text)
-        counters.average_msg_length = counters.sum_message_length / counters.messages
+        counters.average_msg_length = round(counters.sum_message_length / counters.messages, 2)
     elif content_type in counters.__dict__['_data']:
         counters.__dict__['_data'][content_type] += 1
     elif content_type == 'left_chat_member':
