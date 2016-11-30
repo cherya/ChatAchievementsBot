@@ -15,6 +15,22 @@
         <th>Avg. msg len.</th>
         <th>Sum msg len.</th>
     </thead>
+    <tr>
+        <td>Total: {{ total.user }}</td>
+        <td>{{ total.messages }}</td>
+        <td>{{ total.text }}</td>
+        <td>{{ total.sticker }}</td>
+        <td>{{ total.photo }}</td>
+        <td>{{ total.video }}</td>
+        <td>{{ total.document }}</td>
+        <td>{{ total.audio }}</td>
+        <td>{{ total.voice }}</td>
+        <td>{{ total.location }}</td>
+        <td>{{ total.game }}</td>
+        <td>{{ total.reply_to_message }}</td>
+        <td>{{ total.average_msg_length }}</td>
+        <td>{{ total.sum_message_length }}</td>
+    </tr>
     {% for counter in counters_list %}
         <tr>
             <td>
@@ -41,20 +57,4 @@
             <td>{{ counter.sum_message_length }}</td>
         </tr>
     {% endfor %}
-    <tr>
-        <td>Total: {{ total.user }}</td>
-        <td>{{ total.messages }}</td>
-        <td>{{ total.text }}</td>
-        <td>{{ total.sticker }}</td>
-        <td>{{ total.photo }}</td>
-        <td>{{ total.video }}</td>
-        <td>{{ total.document }}</td>
-        <td>{{ total.audio }}</td>
-        <td>{{ total.voice }}</td>
-        <td>{{ total.location }}</td>
-        <td>{{ total.game }}</td>
-        <td>{{ total.reply_to_message }}</td>
-        <td>{{ total.average_msg_length }}</td>
-        <td>{{ total.sum_message_length }}</td>
-    </tr>
 </table>

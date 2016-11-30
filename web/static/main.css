@@ -1,4 +1,30 @@
 html, body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+header{
+    height: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    line-height: 40px;
+    padding: 0 10px;
+}
+
+.chanel{
+    text-decoration: none;
+}
+
+.chanel:visited {
+    color: white;
+}
+
+.main-content{
+    margin: 10px;
 }
 
 .table{
@@ -6,7 +32,7 @@ html, body{
 }
 
 .table th {
-    background-color: wheat;
+    background-color: #9aaacb;
     padding: 4px;
 }
 
@@ -34,6 +60,7 @@ html, body{
     display: inline-block;
 }
 
-.counters .table tr:last-child td{
-    background-color: aliceblue;
+.counters .table tr:first-child td{
+    background-color: #dddddd;
+    border-color: #dddddd;
 }

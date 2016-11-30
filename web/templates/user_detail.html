@@ -1,4 +1,59 @@
 {% extends "base.html" %}
-{% block body %}
-    {% include "achievements.html" %}
+{% block extrahead %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='userpage.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="username">
+        {% if user.username %}
+            <a href="https://telegram.me/{{ user.username }}" target="_blank">@{{ user.username }}</a>
+        {% else %}
+            {{ user.id }}
+        {% endif %}
+    </div>
+    <h1>Achievements</h1>
+        {% for achievement in achievements_list %}
+            <div class="achievement">
+                <div class="achievement-image">
+                    <img src="{{ url_for('static', filename='images/level' + achievement.level|string + '_default.png') }}" alt="">
+                </div>
+                <div class="achievement-details">
+                    <div class="achievement-name">{{achievement.achievement.name}}</div>
+                    <div class="achievement-date">{{achievement.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</div>
+                </div>
+            </div>
+        {% endfor %}
+
+    <h1>Statistics</h1>
+    <table class="user-stats">
+        <thead>
+            <th>Messages</th>
+            <th>Texts</th>
+            <th>Stickers</th>
+            <th>Photos</th>
+            <th>Videos</th>
+            <th>Documents</th>
+            <th>Audios</th>
+            <th>Voices</th>
+            <th>Locations</th>
+            <th>Games</th>
+            <th>Replies</th>
+            <th>Avg. msg len.</th>
+            <th>Sum msg len.</th>
+        </thead>
+        <tr>
+            <td>{{ counters.messages }}</td>
+            <td>{{ counters.text }}</td>
+            <td>{{ counters.sticker }}</td>
+            <td>{{ counters.photo }}</td>
+            <td>{{ counters.video }}</td>
+            <td>{{ counters.document }}</td>
+            <td>{{ counters.audio }}</td>
+            <td>{{ counters.voice }}</td>
+            <td>{{ counters.location }}</td>
+            <td>{{ counters.game }}</td>
+            <td>{{ counters.reply_to_message }}</td>
+            <td>{{ counters.average_msg_length }}</td>
+            <td>{{ counters.sum_message_length }}</td>
+        </tr>
+    </table>
 {% endblock %}

@@ -42,7 +42,10 @@ def user_detail(user_id, **kwargs):
         UserAchievementCounters.user == user,
         UserAchievementCounters.level > 0
     )
+    counters = UserCounters.select().where(UserCounters.user == user)
 
+    kwargs['user'] = user
+    kwargs['counters'] = counters[0]
     kwargs['achievements_list'] = user_achievements
     return render_template('user_detail.html', **kwargs)
 
@@ -55,7 +58,7 @@ def homepage(**kwargs):
         UserAchievementCounters.level > 0
     ).order_by(
         -UserAchievementCounters.date_achieved
-    )[:10]
+    )[:20]
 
     total = {
         'user': 0,

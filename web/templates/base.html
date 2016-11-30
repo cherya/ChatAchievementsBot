@@ -2,9 +2,16 @@
 <head>
     <title>Achievements</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
+    {% block extrahead %}{% endblock %}
 </head>
 <body>
+    <header>
+        <a href="{{ url_for('homepage')}}" class="chanel">Addmetop&techsparks</a> achievements
+    </header>
     <div class=page>
-      {% block body %}{% endblock %}
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
     </div>
 </body>
