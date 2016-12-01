@@ -105,7 +105,7 @@ class PontiusPilatus(AchievementBase):
 
 class BackTo2007(AchievementBase):
     name = 'Назад в 2007'
-    levels = [2, 5, 10]
+    levels = [2, 10, 50]
 
     def check(self, msg, content_type, counters, cur_level):
         if 'text' in msg:
@@ -157,7 +157,7 @@ class Dzhugashvili(AchievementBase):
 
 class KernelPanic(AchievementBase):
     name = 'Kernel Panic'
-    levels = [5, 50, 500]
+    levels = [1, 10, 100]
 
     def check(self, msg, content_type, counters, cur_level):
         text = ''
@@ -186,7 +186,7 @@ class FastestHandInTheWest(AchievementBase):
 
 class Ametist(AchievementBase):
     name = 'Я у мамы аметист'
-    levels = [5, 10, 100]
+    levels = [5, 20, 100]
 
     def check(self, msg, content_type, counters, cur_level):
         return msg_contains(msg, 'бог') or msg_contains(msg, 'бога') or msg_contains(msg, 'богу') or msg_contains(msg, 'богом')
@@ -230,6 +230,15 @@ class Microblogger(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         return counters['local']['messages_in_row'] >= 6
 
+
+class Nigilist(AchievementBase):
+    name = 'Нигилист'
+    levels = [5, 20, 100]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains('нет') or msg_contains('no')
+
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -242,7 +251,8 @@ registered_achievements = [
     Ametist,
     PhotoReporter,
     TNN,
-    Microblogger
+    Microblogger,
+    Nigilist
 ]
 
 __all__ = ['registered_achievements']
