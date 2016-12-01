@@ -78,13 +78,6 @@ class AchievementBase:
             return 0
 
 
-class Welcome(AchievementBase):
-    name = 'Добро пожаловать'
-    levels = [1]
-
-    def check(self, msg, content_type, counters, cur_level):
-        return content_type == 'text'
-
 class Flooder(AchievementBase):
     name = 'Флудер'
     levels = [100, 1000, 10000]
@@ -148,12 +141,8 @@ class Dzhugashvili(AchievementBase):
         if content_type == 'text':
             links = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
                                msg['text'])
-            entities_link = None
-            if 'entities' in msg:
-                for entitie in msg['entities']:
-                    entities_link = entitie['type'] == 'text_link'
 
-            if len(links) > 0 or entities_link is not None:
+            if len(links) > 0:
                 achievements_counters['links_in_row'] += 1
             else:
                 achievements_counters['links_in_row'] = 0
@@ -216,8 +205,32 @@ class TNN(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         return msg_contains(msg, 'тнн') or msg_contains(msg, 'тян не нужны')
 
+class Microblogger(AchievementBase):
+    name = 'Микроблоггер'
+    levels = [1, 5, 20]
+
+    def update(self, msg, content_type, achievements_counters):
+        if achievements_counters is None:
+            achievements_counters = {
+                'messages_in_row': 0,
+                'prev_msg_id': 0
+            }
+
+        msg_id = msg['message_id']
+
+        if msg_id - 1 == achievements_counters['prev_msg_id']:
+            achievements_counters['messages_in_row'] +=1
+        else:
+            achievements_counters['messages_in_row'] = 0
+
+        achievements_counters['prev_msg_id'] = msg_id
+
+        return achievements_counters
+
+    def check(self, msg, content_type, counters, cur_level):
+        return counters['local']['messages_in_row'] >= 6
+
 registered_achievements = [
-    Welcome,
     Flooder,
     StickerSpammer,
     PontiusPilatus,
@@ -228,7 +241,8 @@ registered_achievements = [
     FastestHandInTheWest,
     Ametist,
     PhotoReporter,
-    TNN
+    TNN,
+    Microblogger
 ]
 
 __all__ = ['registered_achievements']

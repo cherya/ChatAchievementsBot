@@ -1,13 +1,17 @@
 from models.db import database
 from models.models import *
 from .achievements import registered_achievements
+from .bot import bot
+from .bot import ADDMETO_CHAT_ID
 
 from datetime import datetime
+
+LOG_CHAT_ID = '@addmetoachievements'
 
 achievement_instances = list(map((lambda achv: achv()), registered_achievements))
 
 
-def update(controller):
+def update():
     database.connect()
     messages = Messages.select().order_by(Messages.date)
     # for every new message
@@ -19,7 +23,8 @@ def update(controller):
         counters = update_user_counters(msg, content_type)
         # check is any achievement triggered
         achieved, user, achievements = trigger_achievements(counters, msg, content_type, chat_id)
-        controller.handle_achievement(achieved, user, achievements)
+        if achieved:
+            handle_achievements(user, achievements, msg)
     Messages.delete().where(Messages.id.in_(messages)).execute()
     database.close()
 
@@ -97,6 +102,18 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
         achievements_counters.save()
 
     return achieved, user, new_achievements
+
+
+def handle_achievements(user, achievements, msg):
+    user = User.get(id=user)
+    for achievement in achievements:
+        # TODO: username can be None T_T
+        name = user.id
+        if user.username is not None:
+            name = '@' + user.username
+        text = '{0} получил \'{1}\' {2}го уровня за сообщение:'.format(name, achievement['name'], achievement['level'])
+        bot.sendMessage(LOG_CHAT_ID, text)
+        bot.forwardMessage(LOG_CHAT_ID, ADDMETO_CHAT_ID, msg['message_id'])
 
 
 __all__ = ['update']

@@ -1,7 +1,12 @@
-from bot.bot import run_bot
-import json
+from bot.bot import run_bot_loop
+from bot.updater import update
+import time
 
-config = json.load(open('config.json', encoding='utf-8'))
+UPDATE_TIMEOUT = 1
 
 if __name__ == '__main__':
-    run_bot(config['token'])
+    run_bot_loop()
+
+    while True:
+        update()
+        time.sleep(UPDATE_TIMEOUT)
