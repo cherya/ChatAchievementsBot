@@ -189,7 +189,7 @@ class Ametist(AchievementBase):
     levels = [5, 10, 100]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains(msg, 'бог')
+        return msg_contains(msg, 'бог') or msg_contains(msg, 'бога') or msg_contains(msg, 'богу') or msg_contains(msg, 'богом')
 
 class PhotoReporter(AchievementBase):
     name = 'Фоторепортер'

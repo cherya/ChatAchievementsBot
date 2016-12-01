@@ -2,7 +2,7 @@ from bot.bot import run_bot_loop
 from bot.updater import update
 import time
 
-UPDATE_TIMEOUT = 1
+UPDATE_TIMEOUT = 20
 
 if __name__ == '__main__':
     run_bot_loop()
