@@ -236,7 +236,7 @@ class Nigilist(AchievementBase):
     levels = [5, 20, 100]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains('нет') or msg_contains('no')
+        return msg_contains(msg, 'нет') or msg_contains(msg, 'no')
 
 
 registered_achievements = [
