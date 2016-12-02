@@ -17,7 +17,7 @@ logging.basicConfig(filename=dir_name+'/bot.log', level=logging.INFO, format='%(
 
 ADDMETO_CHAT_ID = -1001005702961
 
-chats = [29462028]
+chats = [ADDMETO_CHAT_ID, 29462028]
 
 bot = telepot.Bot(token=config['token'])
 
