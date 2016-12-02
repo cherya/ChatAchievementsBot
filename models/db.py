@@ -1,7 +1,5 @@
 from playhouse.postgres_ext import PostgresqlExtDatabase
-import json
-
-config = json.load(open('config.json', encoding='utf-8'))
+from config import config
 
 DATABASE = config['database']
 USER = config['user']

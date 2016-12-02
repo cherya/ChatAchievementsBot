@@ -212,7 +212,7 @@ class Microblogger(AchievementBase):
     def update(self, msg, content_type, achievements_counters):
         if achievements_counters is None:
             achievements_counters = {
-                'messages_in_row': 0,
+                'messages_in_row': 1,
                 'prev_msg_id': 0
             }
 
@@ -221,14 +221,14 @@ class Microblogger(AchievementBase):
         if msg_id - 1 == achievements_counters['prev_msg_id']:
             achievements_counters['messages_in_row'] +=1
         else:
-            achievements_counters['messages_in_row'] = 0
+            achievements_counters['messages_in_row'] = 1
 
         achievements_counters['prev_msg_id'] = msg_id
 
         return achievements_counters
 
     def check(self, msg, content_type, counters, cur_level):
-        return counters['local']['messages_in_row'] >= 6
+        return counters['local']['messages_in_row'] == 6
 
 
 class Nigilist(AchievementBase):

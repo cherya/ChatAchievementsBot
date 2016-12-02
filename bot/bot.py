@@ -1,5 +1,6 @@
 from models.models import *
 from models.db import database
+from config import config
 
 import telepot
 from pprint import pprint
@@ -11,8 +12,6 @@ import json
 ADDMETO_CHAT_ID = -1001005702961
 
 chats = [ADDMETO_CHAT_ID, 29462028]
-
-config = json.load(open('config.json', encoding='utf-8'))
 
 bot = telepot.Bot(token=config['token'])
 
