@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from models.models import *
 from models.db import database
 from config import config
