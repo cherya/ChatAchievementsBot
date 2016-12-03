@@ -7,6 +7,16 @@ emoji_re = re.compile("["
         u"\U0001F1E0-\U0001F1FF"
                            "]+", flags=re.UNICODE)
 
+def get_msg_text(msg):
+    text = ''
+    if 'text' in msg:
+        text = msg['text']
+    if 'caption' in msg:
+        text = msg['caption']
+    return text
+
+def re_from_str(str):
+    return re.compile(r'\b{0}\b'.format(substr), re.IGNORECASE)
 
 def reply_from(iid, msg):
     if is_reply(msg):
@@ -14,14 +24,15 @@ def reply_from(iid, msg):
 
 
 def msg_contains(msg, substr):
-    text = ''
-    if 'text' in msg:
-        text = msg['text']
-    if 'caption' in msg:
-        text = msg['caption']
-    substr = re.compile(r'\b{0}\b'.format(substr), re.IGNORECASE)
-    contains = re.search(substr, text)
+    text = get_msg_text(msg)
+    regexp = re_from_str(substr)
+    contains = re.search(regexp, text)
     return True if contains is not None else False
+
+def msg_equals(msg, str):
+    text = get_msg_text(msg)
+    regexp = re_from_str(str)
+    equals = re.fullmatch(regexp, text)
 
 def is_reply(msg):
     return 'reply_to_message' in msg
@@ -152,7 +163,7 @@ class Dzhugashvili(AchievementBase):
         return achievements_counters
 
     def check(self, msg, content_type, counters, cur_level):
-        return counters['local']['links_in_row'] >= 3
+        return counters['local']['links_in_row'] == 3
 
 
 class KernelPanic(AchievementBase):
@@ -236,7 +247,7 @@ class Nigilist(AchievementBase):
     levels = [5, 20, 100]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains(msg, 'нет') or msg_contains(msg, 'no')
+        return msg_equals(msg, 'нет') or msg_equals(msg, 'no')
 
 
 registered_achievements = [

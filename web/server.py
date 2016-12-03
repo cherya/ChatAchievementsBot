@@ -59,7 +59,7 @@ def homepage(**kwargs):
         UserAchievementCounters.level > 0
     ).order_by(
         -UserAchievementCounters.date_achieved
-    )[:10]
+    )[:20]
 
     total = {
         'user': 0,

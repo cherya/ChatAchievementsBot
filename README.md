@@ -13,8 +13,8 @@
 }
 ```
 
-Now 
+Then
 ```python 
-python run_bot.py # to run telegram bot
-python run_server.py # to run flask server on localhost:5000
+python run.py --bot # to run telegram bot
+python run.py --server # to run flask server on localhost:5000
 ```

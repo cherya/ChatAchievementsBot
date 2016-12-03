@@ -34,13 +34,9 @@
     {% for counter in counters_list %}
         <tr>
             <td>
-                <a href="{{ url_for('user_detail', user_id=counter.user.id) }}">
-                    {% if counter.user.username %}
-                        @{{ counter.user.username }}
-                    {% else %}
-                        {{ counter.user.id }}
-                    {% endif %}
-                </a>
+                {% with user=counter.user %}
+                    {%  include 'user_link.html' %}
+                {%  endwith %}
             </td>
             <td>{{ counter.messages }}</td>
             <td>{{ counter.text }}</td>
