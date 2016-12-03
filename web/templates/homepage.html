@@ -1,10 +1,34 @@
 {% extends "base.html" %}
+{% block extrahead %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='achievement.css') }}">
+{% endblock %}
 {% block content%}
+    <div class="last-achievements">
+        <h2>Last achievements</h2>
+        {% include "achievements.html" %}
+    </div>
+    <div class="all-achievements">
+        <h2>All received achievements ({{ received_achievements|length }}/{{ achievements_count }})</h2>
+        <table class="table">
+            <thead>
+                <th>Achievement</th>
+                <th>Times received</th>
+            </thead>
+            {% for achievement in received_achievements %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('achievement_detail', achievement_id=achievement.achievement.id) }}">
+                            {{achievement.achievement.name}}
+                        </a>
+                    </td>
+                    <td>{{achievement.times_received}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <h2>Statistics</h2>
     <div class="counters">
         {% include "counters.html" %}
-    </div>
-    <div class="last-achievements">
-        {% include "achievements.html" %}
     </div>
     <div class="since">
         since 28.12.2016

@@ -40,12 +40,19 @@ def get_totals_counters(counters):
 
 
 def get_received_achievements():
-    counters = UserAchievementCounters.select().where(UserAchievementCounters.level > 0)
-    seen = set()
-    # get unique achievements id
-    achievements = [x.achievement for x in counters if not (x.achievement.id in seen or seen.add(x.achievement.id))]
-
-    return achievements
+    achievements = Achievement.select()
+    received_achievements = []
+    for achievement in achievements:
+        times_received = UserAchievementCounters.select().where(
+            UserAchievementCounters.level > 0,
+            UserAchievementCounters.achievement == achievement
+        ).count()
+        if times_received > 0:
+            received_achievements.append({
+                'achievement': achievement,
+                'times_received': times_received
+            })
+    return received_achievements
 
 
 @app.before_request
@@ -61,7 +68,7 @@ def after_request(response):
 
 
 @app.route('/users/<user_id>/')
-def user_detail(user_id, **kwargs):
+def user_detail(user_id):
     user = get_object_or_404(User, User.id == user_id)
     user_achievements = UserAchievementCounters.select().where(
         UserAchievementCounters.user == user,
@@ -69,10 +76,32 @@ def user_detail(user_id, **kwargs):
     )
     counters = UserCounters.select().where(UserCounters.user == user)
 
-    kwargs['user'] = user
-    kwargs['counters'] = counters[0]
-    kwargs['achievements_list'] = user_achievements
-    return render_template('user_detail.html', **kwargs)
+    context = {
+        'user': user,
+        'counters': counters[0],
+        'achievements_list': user_achievements
+    }
+    return render_template('user_detail.html', **context)
+
+
+@app.route('/achievements/<achievement_id>/')
+def achievement_detail(achievement_id):
+    achievement = get_object_or_404(Achievement, Achievement.id == achievement_id)
+    users_received = UserAchievementCounters.select().where(
+        UserAchievementCounters.level > 0,
+        UserAchievementCounters.achievement == achievement_id
+    ).order_by(
+        -UserAchievementCounters.level
+    )
+    times_received = users_received.count()
+    if times_received == 0:
+        abort(404)
+
+    context = {
+        'counters': users_received,
+        'achievement': achievement
+    }
+    return render_template('achievement_detail.html', **context)
 
 
 @app.route('/')
@@ -94,6 +123,7 @@ def homepage():
         'total': total,
         'counters_list': counters,
         'achievements_list': last_achievements,
-        'received_achievements': received_achievements
+        'received_achievements': received_achievements,
+        'achievements_count': Achievement.select().count()
     }
     return render_template('homepage.html', **context)

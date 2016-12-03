@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block extrahead %}
+{% endblock %}
+{% block content %}
+    <h1>{{ achievement.name }}</h1>
+    <table class="table">
+    <thead>
+        <th>User</th>
+        <th>Level</th>
+        <th>Date</th>
+    </thead>
+    {% for counter in counters %}
+        <tr>
+            <td>
+                {% with user=counter.user %}
+                    {%  include 'user_link.html' %}
+                {%  endwith %}
+            </td>
+            <td>{{counter.level}}</td>
+            <td>{{counter.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

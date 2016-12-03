@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block extrahead %}
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='userpage.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='achievement.css') }}">
 {% endblock %}
 {% block content %}
     <div class="username">
@@ -12,15 +13,7 @@
     </div>
     <h1>Achievements</h1>
         {% for achievement in achievements_list %}
-            <div class="achievement">
-                <div class="achievement-image">
-                    <img src="{{ url_for('static', filename='images/level' + achievement.level|string + '_default.png') }}" alt="">
-                </div>
-                <div class="achievement-details">
-                    <div class="achievement-name">{{achievement.achievement.name}}</div>
-                    <div class="achievement-date">{{achievement.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</div>
-                </div>
-            </div>
+            {% include 'achievement.html' ignore missing %}
         {% endfor %}
 
     <h1>Statistics</h1>
