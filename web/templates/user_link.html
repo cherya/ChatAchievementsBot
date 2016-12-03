@@ -2,6 +2,10 @@
     {% if user.username %}
         @{{ user.username }}
     {% else %}
-        {{ user.id }}
+        {% if user.first_name %}
+            {{ user.first_name }}
+        {% else %}
+            {{ user.id }}
+        {%  endif %}
     {% endif %}
 </a>
