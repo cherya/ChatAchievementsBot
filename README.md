@@ -15,8 +15,8 @@
 }
 ```
 #####Note
-    *if listen_chats is not specified bot will listen every message from every chat
-    *if log_chat is not specified log will be printed to stdout
+- If listen_chats is not specified bot will listen every message from every chat
+- If log_chat is not specified log will be printed to stdout
 
 Then
 ```
