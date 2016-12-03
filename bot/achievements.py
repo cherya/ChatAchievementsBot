@@ -29,6 +29,16 @@ def msg_contains(msg, substr):
     contains = re.search(regexp, text)
     return True if contains is not None else False
 
+def msg_contains_one_of(msg, substrs):
+    text = get_msg_text(msg)
+    for substr in substrs:
+        regexp = re_from_str(substr)
+        contains = re.search(regexp, text)
+        now_contains = True if contains is not None else False
+        if now_contains:
+            return True
+    return False
+
 def msg_equals(msg, str):
     text = get_msg_text(msg)
     regexp = re_from_str(str)
@@ -249,6 +259,12 @@ class Nigilist(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         return msg_equals(msg, 'нет') or msg_equals(msg, 'no')
 
+class Lolman(AchievementBase):
+    name = 'Лiлка'
+    levels = [2,10,50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains_one_of(msg, ['лол','охлол','lol','лал'])
 
 registered_achievements = [
     Flooder,
@@ -263,7 +279,8 @@ registered_achievements = [
     PhotoReporter,
     TNN,
     Microblogger,
-    Nigilist
+    Nigilist,
+    Lolman
 ]
 
 __all__ = ['registered_achievements']
