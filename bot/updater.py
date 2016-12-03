@@ -29,14 +29,24 @@ def update():
     database.close()
 
 
-# update global counters
-def update_user_counters(msg, content_type):
-    usr_id = msg['from']['id']
+def get_username(msg):
     username = None
     if 'username' in msg['from']:
         username = msg['from']['username']
+    else:
+        if 'first_name' in msg['from']:
+            username = msg['from']['first_name'] + ' '
+        if 'last_name' in msg['from']:
+            username += msg['from']['last_name']
+    return username
+
+
+# update global counters
+def update_user_counters(msg, content_type):
+    usr_id = msg['from']['id']
+
     user, created = User.get_or_create(id=usr_id)
-    user.username = username
+    user.username = get_username(msg)
     counters, created = UserCounters.get_or_create(user=user)
 
     counters.__dict__['_data']['messages'] += 1
