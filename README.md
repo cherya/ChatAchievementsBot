@@ -7,11 +7,16 @@
 ```json
 {
   "token": "TELEGRAM_BOT_TOKEN",
+  "listen_chats": ["CHATS_TO_LISTEN"],
+  "log_chat": "CHAT_TO_LOG",
   "database": "YOUR_DATABASE",
   "user": "POSTGRES_USER",
   "password": "POSTGRES_USER_PASSWORD"
 }
 ```
+#####Note
+    *if listen_chats is not specified bot will listen every message from every chat
+    *if log_chat is not specified log will be printed to stdout
 
 Then
 ```python 

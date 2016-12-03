@@ -22,6 +22,32 @@ def get_object_or_404(model, *expressions):
         abort(404)
 
 
+def get_totals_counters(counters):
+    total = {
+        'user': 0
+    }
+    for counter in counters:
+        counter_dict = counter.__dict__['_data']
+        for field in counter_dict:
+            if not field == 'user':
+                if field in total:
+                    total[field] += counter_dict[field]
+                else:
+                    total[field] = counter_dict[field]
+        total['user'] += 1
+    total['average_msg_length'] = round(total['average_msg_length'] / total['user'], 2)
+    return total
+
+
+def get_received_achievements():
+    counters = UserAchievementCounters.select().where(UserAchievementCounters.level > 0)
+    seen = set()
+    # get unique achievements id
+    achievements = [x.achievement for x in counters if not (x.achievement.id in seen or seen.add(x.achievement.id))]
+
+    return achievements
+
+
 @app.before_request
 def before_request():
     g.db = database
@@ -50,7 +76,7 @@ def user_detail(user_id, **kwargs):
 
 
 @app.route('/')
-def homepage(**kwargs):
+def homepage():
     counters = UserCounters.select().order_by(
         -UserCounters.messages
     )
@@ -61,23 +87,13 @@ def homepage(**kwargs):
         -UserAchievementCounters.date_achieved
     )[:20]
 
-    total = {
-        'user': 0,
+    total = get_totals_counters(counters)
+    received_achievements = get_received_achievements()
+
+    context = {
+        'total': total,
+        'counters_list': counters,
+        'achievements_list': last_achievements,
+        'received_achievements': received_achievements
     }
-
-    for counter in counters:
-        counter_dict = counter.__dict__['_data']
-        for field in counter_dict:
-            if not field == 'user':
-                if field in total:
-                    total[field] += counter_dict[field]
-                else:
-                    total[field] = counter_dict[field]
-        total['user'] += 1
-
-    total['average_msg_length'] = round(total['average_msg_length'] / total['user'], 2)
-
-    kwargs['total'] = total
-    kwargs['counters_list'] = counters
-    kwargs['achievements_list'] = last_achievements
-    return render_template('homepage.html', **kwargs)
+    return render_template('homepage.html', **context)

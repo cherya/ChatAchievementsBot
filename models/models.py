@@ -11,6 +11,8 @@ class BaseModel(Model):
 class User(BaseModel):
     id = CharField(primary_key=True)
     username = CharField(null=True)
+    first_name = CharField(null=True)
+    last_name = CharField(null=True)
     experience = IntegerField(default=0)
 
 

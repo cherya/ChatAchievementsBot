@@ -2,11 +2,13 @@ from models.db import database
 from models.models import *
 from .achievements import registered_achievements
 from .bot import bot
-from .bot import ADDMETO_CHAT_ID
+from config import config
 
 from datetime import datetime
 
-LOG_CHAT_ID = '@addmetoachievements'
+log_to = None
+if 'log_chat' in config:
+    log_chat = config['log_chat']
 
 achievement_instances = list(map((lambda achv: achv()), registered_achievements))
 
@@ -29,24 +31,20 @@ def update():
     database.close()
 
 
-def get_username(msg):
-    username = None
-    if 'username' in msg['from']:
-        username = msg['from']['username']
-    else:
-        if 'first_name' in msg['from']:
-            username = msg['from']['first_name'] + ' '
-        if 'last_name' in msg['from']:
-            username += msg['from']['last_name']
-    return username
+def user_from_msg(msg):
+    user_id = msg['from']['id']
+    user, created = User.get_or_create(id=user_id)
+
+    user.username = msg['from']['username'] if 'username' in msg['from'] else None
+    user.first_name = msg['from']['first_name'] if 'first_name' in msg['from'] else None
+    user.last_name = msg['from']['last_name'] if 'last_name' in msg['from'] else None
+    return user
 
 
 # update global counters
 def update_user_counters(msg, content_type):
-    usr_id = msg['from']['id']
+    user = user_from_msg(msg)
 
-    user, created = User.get_or_create(id=usr_id)
-    user.username = get_username(msg)
     counters, created = UserCounters.get_or_create(user=user)
 
     counters.__dict__['_data']['messages'] += 1
@@ -117,13 +115,15 @@ def trigger_achievements(global_counters, msg, content_type, chat_id):
 def handle_achievements(user, achievements, msg):
     user = User.get(id=user)
     for achievement in achievements:
-        # TODO: username can be None T_T
-        name = user.id
+        name = user.first_name
         if user.username is not None:
             name = '@' + user.username
-        text = '{0} получил \'{1}\' {2}го уровня за сообщение:'.format(name, achievement['name'], achievement['level'])
-        bot.sendMessage(LOG_CHAT_ID, text)
-        bot.forwardMessage(LOG_CHAT_ID, ADDMETO_CHAT_ID, msg['message_id'])
+        text = '{0} получает \'{1}\' {2}го уровня за сообщение:'.format(name, achievement['name'], achievement['level'])
+        if log_to is not None:
+            bot.sendMessage(log_chat, text)
+            bot.forwardMessage(log_chat, msg['chat']['id'], msg['message_id'])
+        else:
+            print(text)
 
 
 __all__ = ['update']
