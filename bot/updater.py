@@ -6,7 +6,7 @@ from config import config
 
 from datetime import datetime
 
-log_to = None
+log_chat = None
 if 'log_chat' in config:
     log_chat = config['log_chat']
 
@@ -119,7 +119,7 @@ def handle_achievements(user, achievements, msg):
         if user.username is not None:
             name = '@' + user.username
         text = '{0} получает \'{1}\' {2}го уровня за сообщение:'.format(name, achievement['name'], achievement['level'])
-        if log_to is not None:
+        if log_chat is not None:
             bot.sendMessage(log_chat, text)
             bot.forwardMessage(log_chat, msg['chat']['id'], msg['message_id'])
         else:
