@@ -1,5 +1,5 @@
 # ChatAchievementsBot
-
+###Installation
 1. pip install -r requirements.txt
 2. Install [postgres](https://www.postgresql.org)
 3. Create database
@@ -19,7 +19,7 @@
     *if log_chat is not specified log will be printed to stdout
 
 Then
-```python 
+```
 python run.py --bot # to run telegram bot
 python run.py --server # to run flask server on localhost:5000
 ```
