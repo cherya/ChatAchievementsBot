@@ -89,3 +89,32 @@ header{
     box-sizing: border-box;
     padding: 5px;
 }
+
+@media screen and (min-width: 768px){
+    header {
+        height: 60px;
+        line-height: 60px;
+    }
+    body{
+        font-size: 1.8em;
+    }
+    .last-achievements {
+        display: block;
+    }
+    .last-achievements .table {
+        width: 100%;
+    }
+    .all-achievements {
+        display: block;
+    }
+    .all-achievements .table {
+        width: 100%;
+    }
+    .counters {
+        width: 100%;
+        overflow: auto;
+    }
+    .counters .table {
+        width: 100%;
+    }
+}

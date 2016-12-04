@@ -266,6 +266,14 @@ class Lolman(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         return msg_contains_one_of(msg, ['лол','охлол','lol','лал'])
 
+class Zombie(AchievementBase):
+    name = 'Зомби'
+    levels = [1, 3, 10]
+
+    def check(self, msg, content_type, counters, cur_level):
+        if is_reply(msg):
+            return msg['date'] - msg['reply_to_message']['date'] >= 60*60*24  # more than 24 hours
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -280,7 +288,8 @@ registered_achievements = [
     TNN,
     Microblogger,
     Nigilist,
-    Lolman
+    Lolman,
+    Zombie
 ]
 
 __all__ = ['registered_achievements']
