@@ -61,10 +61,19 @@ header{
 .all-achievements{
     display: inline-block;
     vertical-align: top;
-    padding: 0 10px;
+    padding: 0 0 0 10px;
 }
 
 .all-achievements .table tr td:last-child{
+    text-align: center;
+}
+
+.top-users {
+    display: inline-block;
+    padding: 0 0 0 10px;
+}
+
+.top-users .table tr td:last-child{
     text-align: center;
 }
 
@@ -88,4 +97,44 @@ header{
     right: 10px;
     box-sizing: border-box;
     padding: 5px;
+}
+
+@media screen and (max-width: 800px) {
+    header {
+        height: 60px;
+        line-height: 60px;
+    }
+    body{
+        font-size: 1.8em;
+    }
+    .main-content{
+        margin: 5px;
+    }
+    .last-achievements {
+        display: block;
+    }
+    .last-achievements .table {
+        width: 100%;
+    }
+    .all-achievements {
+        display: block;
+        padding: 0;
+    }
+    .all-achievements .table {
+        width: 100%;
+    }
+    .top-users {
+        display: block;
+        padding: 0;
+    }
+    .top-users .table {
+        width: 100%;
+    }
+    .counters {
+        width: 100%;
+        overflow: auto;
+    }
+    .counters .table {
+        width: 100%;
+    }
 }

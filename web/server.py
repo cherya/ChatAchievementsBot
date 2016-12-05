@@ -52,7 +52,25 @@ def get_received_achievements():
                 'achievement': achievement,
                 'times_received': times_received
             })
+    received_achievements = sorted(received_achievements, key=lambda x: x['times_received'], reverse=True)
     return received_achievements
+
+
+def get_top_users(amount):
+    users = User.select()
+    users_top = []
+    for user in users:
+        nmbr_achv = UserAchievementCounters.select().where(
+            UserAchievementCounters.level > 0,
+            UserAchievementCounters.user == user
+        ).count()
+        users_top.append({
+            'user': user,
+            'number_of_achievements': nmbr_achv
+        })
+    users_top = sorted(users_top, key=lambda x: x['number_of_achievements'], reverse=True)
+
+    return users_top[:amount]
 
 
 @app.before_request
@@ -118,12 +136,14 @@ def homepage():
 
     total = get_totals_counters(counters)
     received_achievements = get_received_achievements()
+    top_users = get_top_users(5)
 
     context = {
         'total': total,
         'counters_list': counters,
         'achievements_list': last_achievements,
         'received_achievements': received_achievements,
-        'achievements_count': Achievement.select().count()
+        'achievements_count': Achievement.select().count(),
+        'top_users': top_users
     }
     return render_template('homepage.html', **context)

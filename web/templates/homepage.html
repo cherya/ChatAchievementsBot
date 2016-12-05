@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content%}
     <div class="last-achievements">
-        <h2>Last achievements</h2>
+        <h3>Last achievements</h3>
         {% include "achievements.html" %}
     </div>
     <div class="all-achievements">
-        <h2>All received achievements ({{ received_achievements|length }}/{{ achievements_count }})</h2>
+        <h3>Achievements ({{ received_achievements|length }}/{{ achievements_count }})</h3>
         <table class="table">
             <thead>
                 <th>Achievement</th>
@@ -26,7 +26,26 @@
             {% endfor %}
         </table>
     </div>
-    <h2>Statistics</h2>
+    <div class="top-users">
+        <h3>Top users</h3>
+        <table class="table">
+            <thead>
+                <th>User</th>
+                <th>Achievements</th>
+            </thead>
+            {% for user in top_users %}
+                <tr>
+                    <td>
+                       {% with user=user.user %}
+                            {%  include 'user_link.html' %}
+                        {%  endwith %}
+                    </td>
+                    <td>{{user.number_of_achievements}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <h3>Statistics</h3>
     <div class="counters">
         {% include "counters.html" %}
     </div>
