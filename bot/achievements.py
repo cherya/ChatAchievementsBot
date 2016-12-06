@@ -53,6 +53,10 @@ def is_self_reply(msg):
         return reply['from']['id'] == msg['from']['id']
     return False
 
+def is_forvard_from(msg, id):
+    if 'forward_from_chat' in msg:
+        return msg['forward_from_chat']['id'] == id
+
 
 class AchievementBase:
     name = None
@@ -274,6 +278,24 @@ class Zombie(AchievementBase):
         if is_reply(msg):
             return msg['date'] - msg['reply_to_message']['date'] >= 60*60*24  # more than 24 hours
 
+class T800(AchievementBase):
+    name = 'T800'
+    levels = [1, 2, 5]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return is_forvard_from(msg, -1001005993407) or is_forvard_from(msg, -1001009962628)
+
+
+class AddmetoReply(AchievementBase):
+    name = 'AddmetoReply'
+    levels = [2, 10, 50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        if is_reply(msg):
+            chat_id = msg['reply_to_message']['chat']['id']
+            return chat_id == -1001005993407 or chat_id == -1001009962628
+
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -289,7 +311,8 @@ registered_achievements = [
     Microblogger,
     Nigilist,
     Lolman,
-    Zombie
+    Zombie,
+    T800
 ]
 
 __all__ = ['registered_achievements']

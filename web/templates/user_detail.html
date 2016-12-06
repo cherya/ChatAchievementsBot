@@ -17,32 +17,52 @@
         {% endfor %}
 
     <h1>Statistics</h1>
-    <table class="user-stats">
-        <thead>
-            <th>Messages</th>
-            <th>Texts</th>
-            <th>Stickers</th>
-            <th>Photos</th>
-            <th>Videos</th>
-            <th>Documents</th>
-            <th>Audios</th>
-            <th>Voices</th>
-            <th>Replies</th>
-            <th>Avg. msg len.</th>
-            <th>Sum msg len.</th>
-        </thead>
-        <tr>
-            <td>{{ counters.messages }}</td>
-            <td>{{ counters.text }}</td>
-            <td>{{ counters.sticker }}</td>
-            <td>{{ counters.photo }}</td>
-            <td>{{ counters.video }}</td>
-            <td>{{ counters.document }}</td>
-            <td>{{ counters.audio }}</td>
-            <td>{{ counters.voice }}</td>
-            <td>{{ counters.reply_to_message }}</td>
-            <td>{{ counters.average_msg_length }}</td>
-            <td>{{ counters.sum_message_length }}</td>
-        </tr>
-    </table>
+    <div class="user-stats-wrapper">
+        <table class="user-stats">
+            <tr>
+                <td>Messages</td>
+                <td>{{ counters.messages }}</td>
+            </tr>
+            <tr>
+                <td>Texts</td>
+                <td>{{ counters.text }}</td>
+            </tr>
+            <tr>
+                <td>Stickers</td>
+                <td>{{ counters.sticker }}</td>
+            </tr>
+            <tr>
+                <td>Photos</td>
+                <td>{{ counters.photo }}</td>
+            </tr>
+            <tr>
+                <td>Videos</td>
+                <td>{{ counters.video }}</td>
+            </tr>
+            <tr>
+                <td>Documents</td>
+                <td>{{ counters.document }}</td>
+            </tr>
+            <tr>
+                <td>Audios</td>
+                <td>{{ counters.audio }}</td>
+            </tr>
+            <tr>
+                <td>Voices</td>
+                <td>{{ counters.voice }}</td>
+            </tr>
+            <tr>
+                <td>Replies</td>
+                <td>{{ counters.reply_to_message }}</td>
+            </tr>
+            <tr>
+                <td>Avg. msg len</td>
+                <td>{{ counters.average_msg_length }}</td>
+            </tr>
+            <tr>
+                <td>Sum msg len.</td>
+                <td>{{ counters.sum_message_length }}</td>
+            </tr>
+        </table>
+    </div>
 {% endblock %}
