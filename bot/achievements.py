@@ -1,5 +1,9 @@
 import re
 
+ADDMETO_CHANNEL = -1001005993407
+TECHSPARKS_CHANNEL = -1001009962628
+AN = 59645208
+
 emoji_re = re.compile("["
         u"\U0001F600-\U0001F64F"
         u"\U0001F300-\U0001F5FF"
@@ -22,8 +26,12 @@ def reply_from(iid, msg):
     if is_reply(msg):
         return msg['reply_to_message']['from']['id'] == iid
 
+def is_forvard(msg):
+    return 'forward_from' in msg or 'forward_from_chat' in msg
 
 def msg_contains(msg, substr):
+    if is_forvard(msg):
+        return False
     text = get_msg_text(msg)
     regexp = re_from_str(substr)
     contains = re.search(regexp, text)
@@ -32,9 +40,7 @@ def msg_contains(msg, substr):
 def msg_contains_one_of(msg, substrs):
     text = get_msg_text(msg)
     for substr in substrs:
-        regexp = re_from_str(substr)
-        contains = re.search(regexp, text)
-        now_contains = True if contains is not None else False
+        now_contains = msg_contains(msg, substr)
         if now_contains:
             return True
     return False
@@ -56,6 +62,8 @@ def is_self_reply(msg):
 def is_forvard_from(msg, id):
     if 'forward_from_chat' in msg:
         return msg['forward_from_chat']['id'] == id
+    if 'forward_from' in msg:
+        return msg['forward_from']['id'] == id
 
 
 class AchievementBase:
@@ -65,7 +73,6 @@ class AchievementBase:
     def update(self, msg, content_type, achievements_counters):
         return achievements_counters
 
-    # TODO: const
     # global_counters = {
     # 'forward_from_channel': int,
     # 'text': int,
@@ -124,7 +131,6 @@ class PontiusPilatus(AchievementBase):
     levels = [10, 100, 1000]
 
     def check(self, msg, content_type, counters, cur_level):
-        AN = 59645208
         return reply_from(AN, msg)
 
 
@@ -214,7 +220,7 @@ class Ametist(AchievementBase):
     levels = [5, 20, 100]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains(msg, 'бог') or msg_contains(msg, 'бога') or msg_contains(msg, 'богу') or msg_contains(msg, 'богом')
+        return msg_contains_one_of(msg, ['бог', 'бога', ' богу', 'богом'])
 
 class PhotoReporter(AchievementBase):
     name = 'Фоторепортер'
@@ -228,7 +234,7 @@ class TNN(AchievementBase):
     levels = [1, 5, 20]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains(msg, 'тнн') or msg_contains(msg, 'тян не нужны')
+        return msg_contains_one_of(msg, ['тнн', 'тян не нужны'])
 
 class Microblogger(AchievementBase):
     name = 'Микроблоггер'
@@ -283,7 +289,7 @@ class T800(AchievementBase):
     levels = [1, 2, 5]
 
     def check(self, msg, content_type, counters, cur_level):
-        return is_forvard_from(msg, -1001005993407) or is_forvard_from(msg, -1001009962628)
+        return is_forvard_from(msg, ADDMETO_CHANNEL) or is_forvard_from(msg, TECHSPARKS_CHANNEL)
 
 
 class AddmetoReply(AchievementBase):
@@ -293,7 +299,7 @@ class AddmetoReply(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         if is_reply(msg):
             chat_id = msg['reply_to_message']['chat']['id']
-            return chat_id == -1001005993407 or chat_id == -1001009962628
+            return chat_id == ADDMETO_CHANNEL or chat_id == TECHSPARKS_CHANNEL
 
 
 registered_achievements = [
