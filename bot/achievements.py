@@ -48,7 +48,7 @@ def msg_contains_one_of(msg, substrs):
 def msg_equals(msg, str):
     text = get_msg_text(msg)
     regexp = re_from_str(str)
-    equals = re.fullmatch(regexp, text)
+    return re.fullmatch(regexp, text)
 
 def is_reply(msg):
     return 'reply_to_message' in msg
@@ -375,7 +375,6 @@ registered_achievements = [
     Lolman,
     Zombie,
     T800,
-    PlusPlus,
     BG,
     SocialWhore,
     Lisp
