@@ -271,7 +271,7 @@ class Nigilist(AchievementBase):
 
 class Lolman(AchievementBase):
     name = 'Лiлка'
-    levels = [2,10,50]
+    levels = [2, 15, 50]
 
     def check(self, msg, content_type, counters, cur_level):
         return msg_contains_one_of(msg, ['лол','охлол','lol','лал'])
@@ -302,6 +302,62 @@ class AddmetoReply(AchievementBase):
             return chat_id == ADDMETO_CHANNEL or chat_id == TECHSPARKS_CHANNEL
 
 
+class PlusPlus(AchievementBase):
+    name = 'Плюсист'
+    levels = [3, 15, 50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_equals(msg, '+')
+
+
+class BG(AchievementBase):
+    name = 'Мама, я не могу больше пить'
+    levels = [2, 10, 50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains(msg, 'б-г')
+
+
+class SocialWhore(AchievementBase):
+    name = 'Социоблядь'
+    levels = [20, 50, 100]
+
+    def update(self, msg, content_type, achievements_counters):
+        if achievements_counters is None:
+            achievements_counters = {
+                'replied_to': [],
+                'new': False
+            }
+
+        if is_reply(msg) and not is_self_reply(msg):
+            reply_id = msg['reply_to_message']['from']['id']
+            achievements_counters['new'] = not reply_id in achievements_counters['replied_to']
+            if achievements_counters['new']:
+                achievements_counters['replied_to'].append(reply_id)
+
+        return achievements_counters
+
+
+    def check(self, msg, content_type, counters, cur_level):
+        return counters['local']['new']
+
+
+class Lisp(AchievementBase):
+    name = '(list) ==>> NIL'
+    levels = [2, 10, 50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        text = get_msg_text(msg)
+        count = 0
+
+        for c in text:
+            if c == ')' or c == '(':
+                count += 1
+            else:
+                return False
+        return count >= 5
+
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -318,7 +374,11 @@ registered_achievements = [
     Nigilist,
     Lolman,
     Zombie,
-    T800
+    T800,
+    PlusPlus,
+    BG,
+    SocialWhore,
+    Lisp
 ]
 
 __all__ = ['registered_achievements']
