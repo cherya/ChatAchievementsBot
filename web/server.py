@@ -85,19 +85,34 @@ def after_request(response):
     return response
 
 
+def get_achievement_progress(achievement):
+    if len(achievement.achievement.levels) >= achievement.level:
+        return round(achievement.value / achievement.achievement.levels[achievement.level], 2)
+
+
 @app.route('/users/<user_id>/')
 def user_detail(user_id):
     user = get_object_or_404(User, User.id == user_id)
     user_achievements = UserAchievementCounters.select().where(
         UserAchievementCounters.user == user,
-        UserAchievementCounters.level > 0
+        UserAchievementCounters.value > 0
+    ).order_by(
+        -UserAchievementCounters.level
     )
     counters = UserCounters.select().where(UserCounters.user == user)
+    achievements = []
+    for achievement in user_achievements:
+        achievements.append({
+            'level': achievement.level,
+            'date_achieved': achievement.date_achieved,
+            'achievement': achievement.achievement,
+            'progress': get_achievement_progress(achievement)
+        })
 
     context = {
         'user': user,
         'counters': counters[0],
-        'achievements_list': user_achievements
+        'achievements_list': achievements
     }
     return render_template('user_detail.html', **context)
 

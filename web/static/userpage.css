@@ -28,3 +28,11 @@
     width: 100%;
     overflow: auto;
 }
+
+.user-achievements{
+}
+
+.main-content {
+    box-sizing: border-box;
+    overflow: hidden;
+}

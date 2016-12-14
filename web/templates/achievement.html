@@ -1,9 +1,20 @@
-<div class="achievement">
-    <div class="achievement-image">
-        <img src="{{ url_for('static', filename='images/level' + achievement.level|string + '_default.png') }}" alt="">
-    </div>
+<div class="achievement achievement-level-{{ achievement.level }}">
+        <div class="achievement-image">
+            {% if achievement.level > 0 %}
+                <img src="{{ url_for('static', filename='images/level' + achievement.level|string + '_default.png') }}" alt="">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/level1_default.png') }}" alt="">
+            {% endif %}
+        </div>
+
     <div class="achievement-details">
         <div class="achievement-name">{{achievement.achievement.name}}</div>
-        <div class="achievement-date">{{achievement.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</div>
+        {% if achievement.date_achieved %}
+            <div class="achievement-date">{{achievement.date_achieved.strftime('%d.%m.%Y %-H:%M')}}</div>
+        {% endif %}
+    </div>
+    <div class="achievement-progress">
+        <div class="percent-indicator" style="width: {{ achievement.progress * 100 }}%;"></div>
+        <div class="percent">{{ (achievement.progress * 100)|int }}%</div>
     </div>
 </div>

@@ -99,6 +99,10 @@ header{
     padding: 5px;
 }
 
+.page {
+    width: 100%;
+}
+
 @media screen and (max-width: 800px) {
     header {
         height: 50px;

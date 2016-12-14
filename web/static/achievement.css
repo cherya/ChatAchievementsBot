@@ -5,6 +5,8 @@
     border-radius: 5px;
     text-align: center;
     margin: 5px 3px;
+    box-sizing: border-box;
+    width: 350px;
 }
 
 .achievement .achievement-image {
@@ -39,4 +41,25 @@
 
 .achievement .achievement-date{
     padding: 5px 0;
+}
+
+.achievement-level-0 {
+    filter: grayscale(100%);
+}
+
+.achievement-progress{
+    height: 20px;
+    position: relative;
+    border: 1px solid dimgrey;
+    border-radius: 3px;
+    margin: 0 20px;
+    text-align: center;
+}
+
+.percent-indicator {
+    display: inline-block;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 0;
 }

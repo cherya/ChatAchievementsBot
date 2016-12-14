@@ -12,10 +12,11 @@
         {% endif %}
     </div>
     <h1>Achievements</h1>
+    <div class="user-achievements">
         {% for achievement in achievements_list %}
             {% include 'achievement.html' ignore missing %}
         {% endfor %}
-
+    </div>
     <h1>Statistics</h1>
     <div class="user-stats-wrapper">
         <table class="user-stats">
