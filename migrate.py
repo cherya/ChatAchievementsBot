@@ -1,12 +1,15 @@
 from models.db import database
-from playhouse.migrate import *
+from models.models import *
 
-first_name_field = CharField(null=True, default=None)
-last_name_field = CharField(null=True, default=None)
+database.connect()
 
-migrator = PostgresqlMigrator(database)
+achievement = Achievement.select().where((Achievement.name == 'Социоблядь'))
 
-migrate(
-    migrator.add_column('user', 'first_name', first_name_field),
-    migrator.add_column('user', 'last_name', last_name_field)
-)
+counters = UserAchievementCounters.select().where(UserAchievementCounters.achievement == achievement)
+
+
+for counter in counters:
+    if 'replied_to' in counter.counters:
+        if len(counter.counters['replied_to']) < 20:
+            counter.level = 0
+

@@ -331,12 +331,11 @@ class SocialWhore(AchievementBase):
 
         if is_reply(msg) and not is_self_reply(msg):
             reply_id = msg['reply_to_message']['from']['id']
-            achievements_counters['new'] = not reply_id in achievements_counters['replied_to']
+            achievements_counters['new'] = reply_id not in achievements_counters['replied_to']
             if achievements_counters['new']:
                 achievements_counters['replied_to'].append(reply_id)
 
         return achievements_counters
-
 
     def check(self, msg, content_type, counters, cur_level):
         return counters['local']['new']
