@@ -7,11 +7,10 @@ achievement = Achievement.select().where((Achievement.name == 'Социобля�
 
 counters = UserAchievementCounters.select().where(UserAchievementCounters.achievement == achievement)
 
-
 for counter in counters:
     if 'replied_to' in counter.counters:
-        if len(counter.counters['replied_to']) < 20:
-            counter.level = 0
-            counter.value = len(counter.counters)
-            counter.save()
+        counter.value = 0
+        counter.level = 0
+        counter.counters['replied_to'] = []
+        counter.save()
 

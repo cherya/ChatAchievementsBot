@@ -334,7 +334,8 @@ class SocialWhore(AchievementBase):
             achievements_counters['new'] = reply_id not in achievements_counters['replied_to']
             if achievements_counters['new']:
                 achievements_counters['replied_to'].append(reply_id)
-
+        else:
+            achievements_counters['new'] = False
         return achievements_counters
 
     def check(self, msg, content_type, counters, cur_level):
