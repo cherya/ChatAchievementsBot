@@ -26,11 +26,11 @@ def reply_from(iid, msg):
     if is_reply(msg):
         return msg['reply_to_message']['from']['id'] == iid
 
-def is_forvard(msg):
+def is_forward(msg):
     return 'forward_from' in msg or 'forward_from_chat' in msg
 
 def msg_contains(msg, substr):
-    if is_forvard(msg):
+    if is_forward(msg):
         return False
     text = get_msg_text(msg)
     regexp = re_from_str(substr)
@@ -59,7 +59,7 @@ def is_self_reply(msg):
         return reply['from']['id'] == msg['from']['id']
     return False
 
-def is_forvard_from(msg, id):
+def is_forward_from(msg, id):
     if 'forward_from_chat' in msg:
         return msg['forward_from_chat']['id'] == id
     if 'forward_from' in msg:
@@ -289,7 +289,7 @@ class T800(AchievementBase):
     levels = [1, 2, 5]
 
     def check(self, msg, content_type, counters, cur_level):
-        return is_forvard_from(msg, ADDMETO_CHANNEL) or is_forvard_from(msg, TECHSPARKS_CHANNEL)
+        return is_forward_from(msg, ADDMETO_CHANNEL) or is_forward_from(msg, TECHSPARKS_CHANNEL)
 
 
 class AddmetoReply(AchievementBase):
