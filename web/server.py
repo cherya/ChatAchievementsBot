@@ -87,6 +87,8 @@ def after_request(response):
 
 def get_achievement_progress(achievement):
     if len(achievement.achievement.levels) >= achievement.level:
+        if achievement.level >= len(achievement.achievement.levels):
+            return 1
         return round(achievement.value / achievement.achievement.levels[achievement.level], 2)
 
 
