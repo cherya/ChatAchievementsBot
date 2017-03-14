@@ -121,7 +121,11 @@ def handle_achievements(user, achievements, msg):
         text = '{0} получает \'{1}\' {2}го уровня за сообщение:'.format(name, achievement['name'], achievement['level'])
         if log_chat is not None:
             bot.sendMessage(log_chat, text)
-            bot.forwardMessage(log_chat, msg['chat']['id'], msg['message_id'])
+            try:
+               bot.forwardMessage(log_chat, msg['chat']['id'], msg['message_id'])
+            except Exception as e:
+               bot.sendMessage(log_chat, 'сообщение удалено')
+            
         else:
             print(text)
 
