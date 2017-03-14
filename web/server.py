@@ -153,7 +153,7 @@ def homepage():
 
     total = get_totals_counters(counters)
     received_achievements = get_received_achievements()
-    top_users = get_top_users(5)
+    top_users = get_top_users(15)
 
     context = {
         'total': total,
