@@ -35,7 +35,7 @@ def get_totals_counters(counters):
                 else:
                     total[field] = counter_dict[field]
         total['user'] += 1
-    total['average_msg_length'] = round(total['messages'] / total['sum_message_length'], 2)
+    total['average_msg_length'] = round(total['sum_message_length'] / total['messages'], 2)
     return total
 
 
