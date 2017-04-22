@@ -48,7 +48,7 @@ header{
     background-color: #eeeefe;
 }
 
-.table td:first-child, .table td:nth-child(2){
+.table td:first-child, .all-users td:nth-child(2){
     background-color: #eeeeee;
     text-align: left;
 }
