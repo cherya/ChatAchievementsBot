@@ -1,5 +1,5 @@
 from playhouse.postgres_ext import *
-from .db import database
+from db import database
 from datetime import datetime
 
 

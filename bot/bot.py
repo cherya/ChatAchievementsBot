@@ -1,21 +1,26 @@
-from models.models import *
-from models.db import database
-from config import config
+from models import *
+from db import database
+from config import BaseConfig
 
 from pprint import pprint
 import telepot
 import logging
 import os
+import time
 
 dir_name = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(filename=dir_name+'/bot.log', level=logging.INFO, format='%(levelname)s:%(message)s')
 
-if 'listen_chats' in config:
-    chats = config['listen_chats']
+cfg = BaseConfig.__dict__
+
+if 'LISTEN_CHAT' in cfg:
+    chats = [cfg['LISTEN_CHAT']]
+    print(chats)
 else:
     chats = []
 
-bot = telepot.Bot(token=config['token'])
+bot = telepot.Bot(token=cfg['TOKEN'])
+print(cfg['TOKEN'])
 
 
 def run_bot_loop():
@@ -27,6 +32,7 @@ def run_bot_loop():
 
 
 def handle_message(msg):
+    print(msg)
     flavor = telepot.flavor(msg)
     content_type, chat_type, chat_id = telepot.glance(msg, flavor=flavor)
     if len(chats) == 0 or chat_id in chats:
@@ -42,5 +48,3 @@ def handle_message(msg):
 def handle_edit(msg):
     pass
 
-
-__all__ = ['run_bot_loop', 'bot']

@@ -1,14 +1,15 @@
-from models.db import database
-from models.models import *
-from .achievements import registered_achievements
-from .bot import bot
-from config import config
+from db import database
+from models import *
+from achievements import registered_achievements
+from bot import bot
+from config import BaseConfig
 
 from datetime import datetime
 
 log_chat = None
-if 'log_chat' in config:
-    log_chat = config['log_chat']
+cfg = BaseConfig.__dict__
+if 'LOG_CHAT' in cfg:
+    log_chat = cfg['LOG_CHAT']
 
 achievement_instances = list(map((lambda achv: achv()), registered_achievements))
 
@@ -128,6 +129,5 @@ def handle_achievements(user, achievements, msg):
             
         else:
             print(text)
-
 
 __all__ = ['update']

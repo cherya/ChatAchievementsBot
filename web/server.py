@@ -3,8 +3,8 @@ from flask import g
 from flask import render_template
 from flask import abort
 
-from models.db import database
-from models.models import *
+from db import database
+from models import *
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -164,3 +164,7 @@ def homepage():
         'top_users': top_users
     }
     return render_template('homepage.html', **context)
+
+
+if __name__ == '__main__':
+    app.run()
