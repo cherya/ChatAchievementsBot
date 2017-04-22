@@ -1,5 +1,6 @@
 <table class="table">
     <thead>
+        <th>#</th>
         <th>User</th>
         <th>Messages</th>
         <th>Texts</th>
@@ -16,6 +17,7 @@
         <th>Sum msg len.</th>
     </thead>
     <tr>
+        <td></td>
         <td>Total: {{ total.user }}</td>
         <td>{{ total.messages }}</td>
         <td>{{ total.text }}</td>
@@ -33,6 +35,7 @@
     </tr>
     {% for counter in counters_list %}
         <tr>
+            <td>{{ loop.index }}</td>
             <td>
                 {% with user=counter.user %}
                     {%  include 'user_link.html' %}
