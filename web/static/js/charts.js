@@ -30,7 +30,7 @@ window.onload = function() {
             }
         },
         tooltip: {
-            pointFormat: '{point.y}'
+            pointFormat: 'Messages: {point.y}'
         },
         plotOptions: {
             area: {
@@ -82,7 +82,7 @@ window.onload = function() {
             }
         },
         tooltip: {
-            pointFormat: '{point.y}'
+            pointFormat: 'Messages: {point.y}'
         },
         plotOptions: {
             series: {
@@ -118,7 +118,7 @@ window.onload = function() {
             text: 'Daily messages by user'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y}</b>'
         },
         plotOptions: {
             pie: {
@@ -151,7 +151,7 @@ window.onload = function() {
             text: 'Monthly messages by user'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y}</b>'
         },
         plotOptions: {
             pie: {
