@@ -123,6 +123,9 @@ def statistic():
             'y': val
         })
 
+    daily_users.sort(key=lambda x: x['y'], reverse=True)
+    monthly_users.sort(key=lambda x: x['y'], reverse=True)
+
     daily.users = daily_users
     monthly.users = monthly_users
 
