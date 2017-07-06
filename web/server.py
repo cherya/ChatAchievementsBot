@@ -105,17 +105,26 @@ def statistic():
     daily = Statistic.get(id=today.strftime('%Y%m%d'))
     monthly = Statistic.get(id=today.strftime('%Y%m'))
 
-    daily.users = [
-        {
-            'name': User.select().where(User.id == int(key))[0].username,
-            'y': daily.users[key]
-        } for key, val in daily.users.items()]
+    daily_users = []
+    for key, val in daily.users.items():
+        user = User.select().where(User.id == int(key))[0]
+        daily_users.append({
+            'name': user.username if user.username is not None else user.id,
+            'id': user.id,
+            'y': val
+        })
 
-    monthly.users = [
-        {
-            'name': User.select().where(User.id == int(key))[0].username,
-            'y': monthly.users[key]
-        } for key, val in monthly.users.items()]
+    monthly_users = []
+    for key, val in monthly.users.items():
+        user = User.select().where(User.id == int(key))[0]
+        monthly_users.append({
+            'name': user.username if user.username is not None else user.id,
+            'id': user.id,
+            'y': val
+        })
+
+    daily.users = daily_users
+    monthly.users = monthly_users
 
     context = {
         'daily': daily,
