@@ -54,7 +54,6 @@ class UserCounters(BaseModel):
     sum_message_length = BigIntegerField(default=0)
     average_msg_length = FloatField(default=0)
     last_left_chat = IntegerField(default=0)
-    # last_enter_chat = IntegerField(default=0)
 
 
 class Messages(BaseModel):
@@ -64,8 +63,19 @@ class Messages(BaseModel):
     chat_id = CharField()
     content_type = CharField()
 
+
+class Statistic(BaseModel):
+    id = PrimaryKeyField()
+    messages = ArrayField(IntegerField, null=True)
+    users = JSONField(default={})
+
 database.connect()
-database.create_tables([User, Achievement, UserAchievementCounters, UserCounters, Messages], safe=True)
+
+database.create_tables(
+    [User, Achievement, UserAchievementCounters, UserCounters, Messages, Statistic],
+    safe=True
+)
+
 database.close()
 
-__all__ = ['User', 'Achievement', 'UserAchievementCounters', 'UserCounters', 'Messages']
+__all__ = ['User', 'Achievement', 'UserAchievementCounters', 'UserCounters', 'Messages', 'Statistic']

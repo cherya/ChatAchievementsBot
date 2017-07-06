@@ -5,6 +5,7 @@ from .bot import bot
 from config import config
 
 from datetime import datetime
+from datetime import timedelta
 
 log_chat = None
 if 'log_chat' in config:
@@ -13,12 +14,20 @@ if 'log_chat' in config:
 achievement_instances = list(map((lambda achv: achv()), registered_achievements))
 
 
+def last_day_of_month(any_day):
+    next_month = any_day.replace(day=28) + timedelta(days=4)  # this will never fail
+    return (next_month - timedelta(days=next_month.day)).day
+
+
 def update():
     database.connect()
     messages = Messages.select().order_by(Messages.date)
     # for every new message
     for message in messages:
         msg = message.message
+
+        update_statistic(msg)
+
         content_type = message.content_type
         chat_id = message.chat_id
         # update global counters
@@ -29,6 +38,39 @@ def update():
             handle_achievements(user, achievements, msg)
     Messages.delete().where(Messages.id.in_(messages)).execute()
     database.close()
+
+
+def update_statistic(msg):
+    # every hour
+    N_DAILY = 24
+    # every day
+    N_MONTHLY = last_day_of_month(datetime.now())
+
+    msg_date = datetime.fromtimestamp(msg['date'])
+    msg_from = str(msg['from']['id'])
+
+    daily, created = Statistic.get_or_create(id=msg_date.strftime('%Y%m%d'))
+    if created:
+        daily.messages = [0 for _ in range(N_DAILY)]
+
+    monthly, created = Statistic.get_or_create(id=msg_date.strftime('%Y%m'))
+    if created:
+        monthly.messages = [0 for _ in range(N_MONTHLY)]
+
+    # update time counter
+    daily.messages[msg_date.hour] += 1
+    monthly.messages[msg_date.day - 1] += 1
+
+    # update user counter
+    if msg_from in daily.users:
+        daily.users[msg_from] += 1
+        monthly.users[msg_from] += 1
+    else:
+        daily.users[msg_from] = 1
+        monthly.users[msg_from] = 1
+
+    daily.save()
+    monthly.save()
 
 
 def user_from_msg(msg):

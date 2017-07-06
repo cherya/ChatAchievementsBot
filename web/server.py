@@ -6,8 +6,16 @@ from flask import abort
 from models.db import database
 from models.models import *
 
+from datetime import datetime
+from datetime import timedelta
+
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+
+def last_day_of_month(any_day):
+    next_month = any_day.replace(day=28) + timedelta(days=4)  # this will never fail
+    return (next_month - timedelta(days=next_month.day)).day
 
 
 def object_list(template_name, qr, var_name='object_list', **kwargs):
@@ -72,7 +80,6 @@ def get_top_users(amount):
 
     return users_top[:amount]
 
-
 @app.before_request
 def before_request():
     g.db = database
@@ -90,6 +97,33 @@ def get_achievement_progress(achievement):
         if achievement.level >= len(achievement.achievement.levels):
             return 1
         return round(achievement.value / achievement.achievement.levels[achievement.level], 2)
+
+
+@app.route('/stat/')
+def statistic():
+    today = datetime.now()
+    daily = Statistic.get(id=today.strftime('%Y%m%d'))
+    monthly = Statistic.get(id=today.strftime('%Y%m'))
+
+    daily.users = [
+        {
+            'name': User.select().where(User.id == int(key))[0].username,
+            'y': daily.users[key]
+        } for key, val in daily.users.items()]
+
+    monthly.users = [
+        {
+            'name': User.select().where(User.id == int(key))[0].username,
+            'y': monthly.users[key]
+        } for key, val in monthly.users.items()]
+
+    context = {
+        'daily': daily,
+        'monthly': monthly,
+        'last_day': last_day_of_month(today)
+    }
+
+    return render_template('stats.html', **context)
 
 
 @app.route('/users/<user_id>/')

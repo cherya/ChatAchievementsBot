@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block extrahead %}
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stats.css') }}">
+    <script>
+        var dailyMessages = {{ daily.messages|safe }};
+        var dailyUsers = {{ daily.users|safe }};
+        var monthlyMessages = {{ monthly.messages|safe }};
+        var monthlyUsers = {{ monthly.users|safe }};
+        var lastDay = {{ last_day }}
+    </script>
+{% endblock %}
+{% block content%}
+    <div id="dailyMessages" class="chart"></div>
+    <div id="monthlyMessages" class="chart"></div>
+    <div id="dailyUsers" class="chart"></div>
+    <div id="monthlyUsers" class="chart"></div>
+{% endblock%}
