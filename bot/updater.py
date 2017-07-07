@@ -64,9 +64,12 @@ def update_statistic(msg):
     # update user counter
     if msg_from in daily.users:
         daily.users[msg_from] += 1
-        monthly.users[msg_from] += 1
     else:
         daily.users[msg_from] = 1
+
+    if msg_from in monthly.users:
+        monthly.users[msg_from] += 1
+    else:
         monthly.users[msg_from] = 1
 
     daily.save()
