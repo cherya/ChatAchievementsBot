@@ -99,40 +99,60 @@ def get_achievement_progress(achievement):
         return round(achievement.value / achievement.achievement.levels[achievement.level], 2)
 
 
-@app.route('/stat/')
-def statistic():
-    today = datetime.now()
-    daily = Statistic.get(id=today.strftime('%Y%m%d'))
-    monthly = Statistic.get(id=today.strftime('%Y%m'))
+@app.route('/stat/<year>/<month>/<day>')
+def statistic(year, month, day):
+    try:
+        today = datetime(int(year), int(month), int(day))
+    except (TypeError, OverflowError, ValueError):
+        today = datetime.now()
 
-    daily_users = []
-    for key, val in daily.users.items():
-        user = User.select().where(User.id == int(key))[0]
-        daily_users.append({
-            'name': str(user),
-            'id': user.id,
-            'y': val
-        })
+    last_day = last_day_of_month(today)
 
-    monthly_users = []
-    for key, val in monthly.users.items():
-        user = User.select().where(User.id == int(key))[0]
-        monthly_users.append({
-            'name': user.username if user.username is not None else user.id,
-            'id': user.id,
-            'y': val
-        })
+    try:
+        daily = Statistic.get(id=today.strftime('%Y%m%d'))
 
-    daily_users.sort(key=lambda x: x['y'], reverse=True)
-    monthly_users.sort(key=lambda x: x['y'], reverse=True)
+        daily_users = []
+        for key, val in daily.users.items():
+            user = User.select().where(User.id == int(key))[0]
+            daily_users.append({
+                'name': str(user),
+                'id': user.id,
+                'y': val
+            })
+        daily_users.sort(key=lambda x: x['y'], reverse=True)
+        daily.users = daily_users
 
-    daily.users = daily_users
-    monthly.users = monthly_users
+    except:
+        daily = {
+            'messages': [0 for _ in range(24)],
+            'users': {}
+        }
+
+    try:
+        monthly = Statistic.get(id=today.strftime('%Y%m'))
+        monthly_users = []
+        for key, val in monthly.users.items():
+            user = User.select().where(User.id == int(key))[0]
+            monthly_users.append({
+                'name': user.username if user.username is not None else user.id,
+                'id': user.id,
+                'y': val
+            })
+        monthly_users.sort(key=lambda x: x['y'], reverse=True)
+        monthly.users = monthly_users
+    except:
+        monthly = {
+            'messages': [0 for _ in range(last_day)],
+            'users': {}
+        }
 
     context = {
         'daily': daily,
         'monthly': monthly,
-        'last_day': last_day_of_month(today)
+        'last_day': last_day,
+        'yesterday': (today - timedelta(1)).strftime('%Y/%m/%d'),
+        'tomorrow':  (today + timedelta(1)).strftime('%Y/%m/%d'),
+        'today': today.strftime('%d.%m.%Y')
     }
 
     return render_template('stats.html', **context)

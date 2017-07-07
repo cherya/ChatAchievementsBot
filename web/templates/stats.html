@@ -36,6 +36,11 @@
     </script>
 {% endblock %}
 {% block content%}
+    <div class="calendar">
+        <a href="/stat/{{ yesterday }}"> ⤆ </a>
+        {{ today }}
+        <a href="/stat/{{ tomorrow }}"> ⤇ </a>
+    </div>
     <div id="dailyMessages" class="chart"></div>
     <div id="monthlyMessages" class="chart"></div>
     <div id="dailyUsers" class="chart"></div>
