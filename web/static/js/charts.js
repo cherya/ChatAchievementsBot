@@ -1,10 +1,10 @@
 window.onload = function() {
     Highcharts.chart('dailyMessages', {
         chart: {
-            type: 'area'
+            type: 'column'
         },
         title: {
-            text: 'Daily messages count'
+            text: 'Daily'
         },
         xAxis: {
             allowDecimals: false,
@@ -27,7 +27,7 @@ window.onload = function() {
         },
         yAxis: {
             title: {
-                text: 'Messages count'
+                text: 'Messages'
             },
             labels: {
                 formatter: function () {
@@ -53,6 +53,7 @@ window.onload = function() {
             }
         },
         series: [{
+            pointWidth: 30,
             showInLegend: false,
             data: dailyMessages
         }]
@@ -63,7 +64,7 @@ window.onload = function() {
             type: 'area'
         },
         title: {
-            text: 'Monthly messages count'
+            text: 'Monthly'
         },
         xAxis: {
             allowDecimals: false,
@@ -85,7 +86,7 @@ window.onload = function() {
         },
         yAxis: {
             title: {
-                text: 'Messages count'
+                text: 'Messages'
             },
             labels: {
                 formatter: function () {
