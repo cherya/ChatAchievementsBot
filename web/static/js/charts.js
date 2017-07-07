@@ -1,7 +1,7 @@
 window.onload = function() {
     Highcharts.chart('dailyMessages', {
         chart: {
-            type: 'column'
+            type: 'area'
         },
         title: {
             text: 'Daily'
@@ -53,7 +53,6 @@ window.onload = function() {
             }
         },
         series: [{
-            pointWidth: 30,
             showInLegend: false,
             data: dailyMessages
         }]
