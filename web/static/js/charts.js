@@ -126,9 +126,6 @@ window.onload = function() {
             plotShadow: false,
             type: 'pie'
         },
-        title: {
-            text: 'Daily messages by user'
-        },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.y}</b>'
         },
@@ -158,9 +155,6 @@ window.onload = function() {
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie'
-        },
-        title: {
-            text: 'Monthly messages by user'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.y}</b>'
