@@ -126,6 +126,9 @@ window.onload = function() {
             plotShadow: false,
             type: 'pie'
         },
+        title: {
+            text: ''
+        },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.y}</b>'
         },
@@ -155,6 +158,9 @@ window.onload = function() {
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie'
+        },
+        title: {
+            text: ''
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.y}</b>'
