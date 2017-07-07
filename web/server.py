@@ -99,8 +99,9 @@ def get_achievement_progress(achievement):
         return round(achievement.value / achievement.achievement.levels[achievement.level], 2)
 
 
+@app.route('/stat/')
 @app.route('/stat/<year>/<month>/<day>')
-def statistic(year, month, day):
+def statistic(year=None, month=None, day=None):
     try:
         today = datetime(int(year), int(month), int(day))
     except (TypeError, OverflowError, ValueError):
