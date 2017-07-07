@@ -15,11 +15,23 @@ class User(BaseModel):
     last_name = CharField(null=True)
     experience = IntegerField(default=0)
 
+    def __str__(self):
+        if not self.username is None:
+            return self.username
+        else:
+            name = self.first_name
+            if self.last_name is not None:
+                name += ' ' + self.last_name
+        return name
+
 
 class Achievement(BaseModel):
     id = PrimaryKeyField()
     levels = ArrayField(null=True)
     name = CharField(default='achievement', unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class UserAchievementCounters(BaseModel):

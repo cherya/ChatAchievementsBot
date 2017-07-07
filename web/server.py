@@ -109,7 +109,7 @@ def statistic():
     for key, val in daily.users.items():
         user = User.select().where(User.id == int(key))[0]
         daily_users.append({
-            'name': user.username if user.username is not None else user.id,
+            'name': str(user),
             'id': user.id,
             'y': val
         })
