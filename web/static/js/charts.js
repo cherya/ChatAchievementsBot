@@ -169,7 +169,7 @@ window.onload = function() {
         series: [{
             name: 'Messages',
             colorByPoint: true,
-            data: dailyUsers
+            data: monthlyUsers
         }]
     });
 }
