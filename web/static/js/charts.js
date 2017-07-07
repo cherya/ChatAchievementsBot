@@ -13,6 +13,12 @@ window.onload = function() {
                     return this.value;
                 }
             },
+            tickPositioner: function() {
+                var result = [];
+                for(i = 0; i < dailyMessages.length; i++)
+                    result.push(i);
+                return result;
+            },
             title: {
                 text: 'Hour'
             },
@@ -65,6 +71,13 @@ window.onload = function() {
                 formatter: function () {
                     return this.value;
                 }
+            },
+            tickPositioner: function() {
+                var result = [];
+                for(i = 1; i <= monthlyMessages.length; i++)
+                    result.push(i);
+                console.log(result);
+                return result;
             },
             title: {
                 text: 'Day'
