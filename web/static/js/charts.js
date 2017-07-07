@@ -76,7 +76,6 @@ window.onload = function() {
                 var result = [];
                 for(i = 1; i <= monthlyMessages.length; i++)
                     result.push(i);
-                console.log(result);
                 return result;
             },
             title: {

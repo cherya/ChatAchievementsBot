@@ -9,6 +9,30 @@
         var monthlyMessages = {{ monthly.messages|safe }};
         var monthlyUsers = {{ monthly.users|safe }};
         var lastDay = {{ last_day }}
+
+        function clearData(array) {
+            for (let i=array.length - 1; i > 0; i--) {
+                if (array[i] == 0) {
+                    array[i] = null;
+                } else {
+                    break;
+                }
+            }
+        }
+        clearData(dailyMessages);
+        clearData(monthlyMessages);
+
+        let date = new Date();
+        let day = date.getUTCDate();
+        let hour = date.getHours();
+
+        if (dailyMessages[hour] === null) {
+            dailyMessages[hour] = 0;
+        }
+        if (monthlyMessages[day] === null) {
+            dailyMessages[day] = 0;
+        }
+
     </script>
 {% endblock %}
 {% block content%}
