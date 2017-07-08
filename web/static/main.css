@@ -91,10 +91,9 @@ header{
     font-style: italic;
 }
 
-.octocat{
+.octocat, .stat{
     height: 100%;
-    position: absolute;
-    right: 10px;
+    float: right;
     box-sizing: border-box;
     padding: 5px;
 }
