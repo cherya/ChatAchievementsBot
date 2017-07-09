@@ -129,7 +129,7 @@ def statistic(year=None, month=None, day=None):
     try:
         today = date(int(year), int(month), int(day))
     except (TypeError, OverflowError, ValueError):
-        today = date.now()
+        today = date.today()
 
     last_day = last_day_of_month(today)
 
