@@ -6,7 +6,7 @@ from flask import abort
 from models.db import database
 from models.models import *
 
-from datetime import datetime
+from datetime import date
 from datetime import timedelta
 from collections import Counter
 
@@ -127,9 +127,9 @@ def get_monthly_stat(month, last_day):
 @app.route('/stat/<year>/<month>/<day>')
 def statistic(year=None, month=None, day=None):
     try:
-        today = datetime(int(year), int(month), int(day))
+        today = date(int(year), int(month), int(day))
     except (TypeError, OverflowError, ValueError):
-        today = datetime.now()
+        today = date.now()
 
     last_day = last_day_of_month(today)
 
