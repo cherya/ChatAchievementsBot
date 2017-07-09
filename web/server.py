@@ -134,7 +134,7 @@ def statistic(year=None, month=None, day=None):
     last_day = last_day_of_month(today)
 
     try:
-        daily = Statistic.get(id=today.strftime('%Y%m%d'))
+        daily = Statistic.get(Statistic.date == today)
 
         daily_users = []
         for key, val in daily.users.items():
