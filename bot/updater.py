@@ -5,6 +5,7 @@ from .bot import bot
 from config import config
 
 from datetime import datetime
+from datetime import date
 from datetime import timedelta
 
 log_chat = None
@@ -41,25 +42,15 @@ def update():
 
 
 def update_statistic(msg):
-    # every hour
-    N_DAILY = 24
-    # every day
-    N_MONTHLY = last_day_of_month(datetime.now())
-
     msg_date = datetime.fromtimestamp(msg['date'])
     msg_from = str(msg['from']['id'])
 
-    daily, created = Statistic.get_or_create(id=msg_date.strftime('%Y%m%d'))
+    daily, created = Statistic.get_or_create(date=date.today())
     if created:
-        daily.messages = [0 for _ in range(N_DAILY)]
+        daily.messages = [0 for _ in range(24)]
 
-    monthly, created = Statistic.get_or_create(id=msg_date.strftime('%Y%m'))
-    if created:
-        monthly.messages = [0 for _ in range(N_MONTHLY)]
-
-    # update time counter
+    # update hour counter
     daily.messages[msg_date.hour] += 1
-    monthly.messages[msg_date.day - 1] += 1
 
     # update user counter
     if msg_from in daily.users:
@@ -67,13 +58,7 @@ def update_statistic(msg):
     else:
         daily.users[msg_from] = 1
 
-    if msg_from in monthly.users:
-        monthly.users[msg_from] += 1
-    else:
-        monthly.users[msg_from] = 1
-
     daily.save()
-    monthly.save()
 
 
 def user_from_msg(msg):

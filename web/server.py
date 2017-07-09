@@ -8,6 +8,7 @@ from models.models import *
 
 from datetime import datetime
 from datetime import timedelta
+from collections import Counter
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -99,6 +100,27 @@ def get_achievement_progress(achievement):
         return round(achievement.value / achievement.achievement.levels[achievement.level], 2)
 
 
+def get_monthly_stat(month, last_day):
+    m_stat = Statistic.select().where(Statistic.date.month == month)
+    users = [i.users for i in m_stat]
+    users = sum((Counter(y) for y in users), Counter())
+    m_users = []
+
+    for key, val in users.items():
+        user = User.select().where(User.id == int(key))[0]
+        m_users.append({
+            'name': str(user),
+            'id': user.id,
+            'y': val
+        })
+
+    m_messages = [0] * last_day
+    for stat in m_stat:
+        m_messages[stat.date.day - 1] = sum(stat.messages)
+
+    return m_users, m_messages
+
+
 @app.route('/stat/')
 @app.route('/stat/<year>/<month>/<day>')
 def statistic(year=None, month=None, day=None):
@@ -125,27 +147,16 @@ def statistic(year=None, month=None, day=None):
 
     except:
         daily = {
-            'messages': [0 for _ in range(24)],
+            'messages': [0] * 24,
             'users': {}
         }
 
-    try:
-        monthly = Statistic.get(id=today.strftime('%Y%m'))
-        monthly_users = []
-        for key, val in monthly.users.items():
-            user = User.select().where(User.id == int(key))[0]
-            monthly_users.append({
-                'name': user.username if user.username is not None else user.id,
-                'id': user.id,
-                'y': val
-            })
-        monthly_users.sort(key=lambda x: x['y'], reverse=True)
-        monthly.users = monthly_users
-    except:
-        monthly = {
-            'messages': [0 for _ in range(last_day)],
-            'users': {}
-        }
+    monthly_users, monthly_messages = get_monthly_stat(today.month, last_day)
+
+    monthly = {
+        'users': monthly_users,
+        'messages': monthly_messages
+    }
 
     context = {
         'daily': daily,

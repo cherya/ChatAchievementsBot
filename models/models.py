@@ -78,6 +78,7 @@ class Messages(BaseModel):
 
 class Statistic(BaseModel):
     id = PrimaryKeyField()
+    date = DateField(unique=True)
     messages = ArrayField(IntegerField, null=True)
     users = JSONField(default={})
 
