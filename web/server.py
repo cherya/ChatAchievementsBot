@@ -114,6 +114,8 @@ def get_monthly_stat(month, last_day):
             'y': val
         })
 
+    m_users.sort(key=lambda x: x['y'], reverse=True)
+
     m_messages = [0] * last_day
     for stat in m_stat:
         m_messages[stat.date.day - 1] = sum(stat.messages)
