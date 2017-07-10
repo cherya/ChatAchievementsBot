@@ -47,7 +47,7 @@ def update_statistic(msg):
 
     daily, created = Statistic.get_or_create(date=date.today())
     if created:
-        daily.messages = [0 for _ in range(24)]
+        daily.messages = [0] * 24
 
     # update hour counter
     daily.messages[msg_date.hour] += 1

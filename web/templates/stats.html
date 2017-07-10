@@ -29,8 +29,8 @@
         if (dailyMessages[hour] === null) {
             dailyMessages[hour] = 0;
         }
-        if (monthlyMessages[day] === null) {
-            dailyMessages[day] = 0;
+        if (monthlyMessages[day - 1] === null) {
+            monthlyMessages[day] = 0;
         }
 
     </script>
