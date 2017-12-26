@@ -357,6 +357,29 @@ class Lisp(AchievementBase):
                 return False
         return count >= 5
 
+# никсельпиксель
+class GoldenNicka(AchievementBase):
+    name = 'Золотая Ника'
+    levels = [3, 15, 50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains(msg, 'хуемразь')
+
+# паста про суп 
+class Dad(AchievementBase):
+    name = 'Батя'
+    levels = [5, 15, 70]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains(msg, 'бля')
+
+# упоротый папуг на арбузе 
+class JesusHearMe(AchievementBase):
+    name = 'Есус ты миня слышеш'
+    levels = [5, 15, 70]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains_one_of(msg, 'папуг', 'попугай')
 
 registered_achievements = [
     Flooder,
@@ -377,7 +400,12 @@ registered_achievements = [
     T800,
     BG,
     SocialWhore,
-    Lisp
+    Lisp,
+	PlusPlus,
+	AddmetoReply,
+	GoldenNicka,
+	Dad,
+	JesusHearMe
 ]
 
 __all__ = ['registered_achievements']
