@@ -20,6 +20,7 @@ def get_msg_text(msg):
     return text
 
 def re_from_str(str):
+    str = re.escape(str)
     return re.compile(r'\b{0}\b'.format(str), re.IGNORECASE)
 
 def reply_from(iid, msg):
