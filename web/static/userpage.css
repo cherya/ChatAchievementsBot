@@ -4,35 +4,46 @@
 }
 
 .user-stats {
-    border-collapse: collapse;
     text-align: center;
 }
 
 .user-stats td:first-child{
     font-weight: 700;
-    padding: 5px;
     text-align: left;
-    width: 50%;
-    background-color: #eeeeee;
-}
-
-.user-stats td {
-    border: 1px solid #dddddd;
-}
-
-.user-stats tr:hover td {
-    background-color: #eeeefe;;
 }
 
 .user-stats-wrapper {
     width: 100%;
-    overflow: auto;
 }
 
-.user-achievements{
+.user-achievements {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+.user-achievements:after {
+   content: ' '; 
+   display: block;
+   flex: 1.07;
+   height: 1px;
+   min-width: 328px;
 }
 
 .main-content {
     box-sizing: border-box;
     overflow: hidden;
+}
+
+.column-wrapper-profile .right-column {
+   padding-top: 35px;    
+   box-sizing: border-box;
+}
+
+.column-wrapper-profile .right-column h1 {
+   margin-bottom: 17px;
+}
+
+.main-content .achievement {
+   min-width: 328px;
+   flex: 1;
 }

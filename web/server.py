@@ -69,12 +69,14 @@ def get_top_users(amount):
     users = User.select()
     users_top = []
     for user in users:
+        counters = UserCounters.select().where(UserCounters.user == user)
         nmbr_achv = UserAchievementCounters.select().where(
             UserAchievementCounters.level > 0,
             UserAchievementCounters.user == user
         ).count()
         users_top.append({
             'user': user,
+            'counters': counters[0],
             'number_of_achievements': nmbr_achv
         })
     users_top = sorted(users_top, key=lambda x: x['number_of_achievements'], reverse=True)
@@ -84,7 +86,7 @@ def get_top_users(amount):
 @app.before_request
 def before_request():
     g.db = database
-    g.db.connect()
+    g.db.get_conn()
 
 
 @app.after_request
@@ -194,7 +196,8 @@ def user_detail(user_id):
     context = {
         'user': user,
         'counters': counters[0],
-        'achievements_list': achievements
+        'achievements_list': achievements,
+        'achievements_count': len(achievements)
     }
     return render_template('user_detail.html', **context)
 
@@ -218,6 +221,17 @@ def achievement_detail(achievement_id):
     }
     return render_template('achievement_detail.html', **context)
 
+@app.route('/counters/')
+def counters():
+    counters = UserCounters.select().order_by(
+        -UserCounters.messages
+    )
+    total = get_totals_counters(counters)
+    context = {
+        'total': total,
+        'counters_list': counters
+    }
+    return render_template('counters_page.html', **context)
 
 @app.route('/')
 def homepage():
@@ -229,15 +243,15 @@ def homepage():
         UserAchievementCounters.level > 0
     ).order_by(
         -UserAchievementCounters.date_achieved
-    )[:20]
+    )[:10]
 
     total = get_totals_counters(counters)
     received_achievements = get_received_achievements()
-    top_users = get_top_users(15)
+    top_users = get_top_users(10)
 
     context = {
         'total': total,
-        'counters_list': counters,
+        'counters_list': counters[:50],
         'achievements_list': last_achievements,
         'received_achievements': received_achievements,
         'achievements_count': Achievement.select().count(),

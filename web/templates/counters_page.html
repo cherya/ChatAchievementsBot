@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block extrahead %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='achievement.css') }}">
+{% endblock %}
+{% block content%}
+    <h3>Statistics</h3>
+    <div class="counters">
+        {% include "counters.html" %}
+    </div>
+    <div class="since">
+        since 28.11.2016
+    </div>
+{% endblock%}

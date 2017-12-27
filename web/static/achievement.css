@@ -1,14 +1,19 @@
 .achievement {
-    background-color: #b1d8c9;
+    background: linear-gradient(135deg, #8ba3f8 0%, #9f78f8 100%);
     display: inline-block;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
-    margin: 5px 3px;
+    margin: 10px;
     box-sizing: border-box;
     width: 350px;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);
 }
-
+.achievement:hover {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+    transform: translateY(-1px);
+}
 .achievement .achievement-image {
     height: 60px;
     width: 300px;
@@ -40,7 +45,7 @@
 }
 
 .achievement .achievement-date{
-    padding: 5px 0;
+    padding: 5px 0 10px 0;
 }
 
 .achievement-level-0 {
@@ -50,16 +55,20 @@
 .achievement-progress{
     height: 20px;
     position: relative;
-    border: 1px solid dimgrey;
     border-radius: 3px;
     margin: 0 20px;
     text-align: center;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.15);
+}
+.percent {
+    padding-top: 1px;
 }
 
 .percent-indicator {
     display: inline-block;
     height: 100%;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3);
     position: absolute;
     left: 0;
+    border-radius: 3px;
 }

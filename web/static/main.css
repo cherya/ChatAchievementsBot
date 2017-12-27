@@ -5,15 +5,16 @@ html, body{
     width: 100%;
 }
 
-header{
+header {
     height: 40px;
     width: 100%;
     box-sizing: border-box;
-    background-color: black;
+    background-color: #222222;
     color: white;
     line-height: 40px;
     padding: 0 10px;
     position: relative;
+    box-shadow: 0 3px 20px 0 #c5c3c3;
 }
 
 .chanel{
@@ -25,43 +26,92 @@ header{
 }
 
 .main-content{
-    margin: 10px;
     overflow: auto;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 25px;
+    box-sizing: border-box;
 }
 
-.table{
+h3 {
+    text-transform: uppercase;
+    font-size: 16px;
+    padding-top: 20px;
+}
+
+.column-wrapper {
+    display:  flex;
+    width:  100%;
+}
+
+.left-column {
+    display:  flex;
+    flex-direction: column;
+    width:  100%;
+}
+
+.right-column {
+    padding-left: 20px;
+}
+
+.table {
     border-collapse: collapse;
+    border-radius: 6px;
+    border-style: hidden;
+    box-shadow: 0 0 5px 1px #eaeaea;
 }
 
 .table th {
-    background-color: #9aaacb;
+    background-color: #F7F7F7;
     padding: 4px;
+    font-size: 14px;
 }
 
 .table td {
     border: 1px solid #eeeeee;
-    padding: 3px;
+    padding: 8px;
     text-align: right;
+    font-size: 16px;
+}
+
+.table th:first-child {
+    border-top-left-radius: 6px;
+}
+.table th:last-child {
+    border-top-right-radius: 6px;
 }
 
 .table tr:hover td{
-    background-color: #eeeefe;
+    background-color: #f6f6f6;
+}
+
+.table tr:hover {
+    box-shadow: 0 0 2px 0 #eaeaea;
 }
 
 .table td:first-child, .all-users td:nth-child(2){
-    background-color: #eeeeee;
+    background-color: #fbfbfb;
     text-align: left;
+    max-width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.last-achievements{
+.last-achievements {
     display: inline-block;
     vertical-align: top;
+    width: 100%;
 }
+.last-achievements table {
+    width: 100%;
+}
+
 
 .all-achievements{
     display: inline-block;
     vertical-align: top;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 30px;
 }
 
 .all-achievements .table tr td:last-child{
@@ -70,20 +120,24 @@ header{
 
 .top-users {
     display: inline-block;
-    padding: 0 0 0 10px;
+    width:  100%;
+}
+.top-users table {
+    width: 100%;
 }
 
-.top-users .table tr td:last-child{
+.top-users .table tr td:last-child, .top-users .table tr td:nth-child(2) {
     text-align: center;
+    width: 50%;
 }
 
 .counters {
     display: inline-block;
 }
 
-.counters .table tr:first-child td{
-    background-color: #dddddd;
-    border-color: #dddddd;
+.counters .table tr:first-child td {
+    background-color: #eaeaea;
+    border-color: #eaeaea;
 }
 
 .since {
@@ -100,6 +154,33 @@ header{
 
 .page {
     width: 100%;
+}
+
+.center-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-title {
+    display: inline-block;
+}
+
+.stat-link {
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer a {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 17px;
 }
 
 @media screen and (max-width: 800px) {
@@ -148,5 +229,14 @@ header{
     }
     .achievement {
         font-size: 1.4em;
+    }
+    .percent {
+        font-size: 17px;
+    }
+    .column-wrapper {
+        flex-direction: column;
+    }
+    .right-column {
+        padding-left: 0;
     }
 }

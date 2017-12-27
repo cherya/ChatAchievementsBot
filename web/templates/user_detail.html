@@ -4,66 +4,72 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='achievement.css') }}">
 {% endblock %}
 {% block content %}
-    <div class="username">
-        {% if user.username %}
-            <a href="https://telegram.me/{{ user.username }}" target="_blank">@{{ user.username }}</a>
-        {% else %}
-            {{ user.id }}
-        {% endif %}
-    </div>
-    <h1>Achievements</h1>
-    <div class="user-achievements">
-        {% for achievement in achievements_list %}
-            {% include 'achievement.html' ignore missing %}
-        {% endfor %}
-    </div>
-    <h1>Statistics</h1>
-    <div class="user-stats-wrapper">
-        <table class="user-stats">
-            <tr>
-                <td>Messages</td>
-                <td>{{ counters.messages }}</td>
-            </tr>
-            <tr>
-                <td>Texts</td>
-                <td>{{ counters.text }}</td>
-            </tr>
-            <tr>
-                <td>Stickers</td>
-                <td>{{ counters.sticker }}</td>
-            </tr>
-            <tr>
-                <td>Photos</td>
-                <td>{{ counters.photo }}</td>
-            </tr>
-            <tr>
-                <td>Videos</td>
-                <td>{{ counters.video }}</td>
-            </tr>
-            <tr>
-                <td>Documents</td>
-                <td>{{ counters.document }}</td>
-            </tr>
-            <tr>
-                <td>Audios</td>
-                <td>{{ counters.audio }}</td>
-            </tr>
-            <tr>
-                <td>Voices</td>
-                <td>{{ counters.voice }}</td>
-            </tr>
-            <tr>
-                <td>Replies</td>
-                <td>{{ counters.reply_to_message }}</td>
-            </tr>
-            <tr>
-                <td>Avg. msg len</td>
-                <td>{{ counters.average_msg_length }}</td>
-            </tr>
-            <tr>
-                <td>Sum msg len.</td>
-                <td>{{ counters.sum_message_length }}</td>
-            </tr>
-        </table>
+    <div class="column-wrapper column-wrapper-profile">
+        <div class="left-column">
+            <div class="username">
+                {% if user.username %}
+                    <a href="https://telegram.me/{{ user.username }}" target="_blank">@{{ user.username }}</a>
+                {% else %}
+                    {{ user.id }}
+                {% endif %}
+            </div>
+            <h1>Statistics</h1>
+            <div class="user-stats-wrapper">
+                <table class="table user-stats">
+                    <tr>
+                        <td>Messages</td>
+                        <td>{{ counters.messages }}</td>
+                    </tr>
+                    <tr>
+                        <td>Texts</td>
+                        <td>{{ counters.text }}</td>
+                    </tr>
+                    <tr>
+                        <td>Stickers</td>
+                        <td>{{ counters.sticker }}</td>
+                    </tr>
+                    <tr>
+                        <td>Photos</td>
+                        <td>{{ counters.photo }}</td>
+                    </tr>
+                    <tr>
+                        <td>Videos</td>
+                        <td>{{ counters.video }}</td>
+                    </tr>
+                    <tr>
+                        <td>Documents</td>
+                        <td>{{ counters.document }}</td>
+                    </tr>
+                    <tr>
+                        <td>Audios</td>
+                        <td>{{ counters.audio }}</td>
+                    </tr>
+                    <tr>
+                        <td>Voices</td>
+                        <td>{{ counters.voice }}</td>
+                    </tr>
+                    <tr>
+                        <td>Replies</td>
+                        <td>{{ counters.reply_to_message }}</td>
+                    </tr>
+                    <tr>
+                        <td>Avg. msg len</td>
+                        <td>{{ counters.average_msg_length }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sum msg len.</td>
+                        <td>{{ counters.sum_message_length }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="right-column">
+            <h1>Achievements ({{ achievements_count }})</h1>
+            <div class="user-achievements">
+                {% for achievement in achievements_list %}
+                    {% include 'achievement.html' ignore missing %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
