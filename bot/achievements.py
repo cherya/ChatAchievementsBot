@@ -293,8 +293,8 @@ class T800(AchievementBase):
 
 
 class AddmetoReply(AchievementBase):
-    name = 'AddmetoReply'
-    levels = [2, 10, 50]
+    name = 'Громозека'
+    levels = [2, 15, 50]
 
     def check(self, msg, content_type, counters, cur_level):
         if is_reply(msg):
@@ -303,7 +303,7 @@ class AddmetoReply(AchievementBase):
 
 
 class PlusPlus(AchievementBase):
-    name = 'Плюсист'
+    name = 'Инкремент'
     levels = [3, 15, 50]
 
     def check(self, msg, content_type, counters, cur_level):
@@ -357,6 +357,29 @@ class Lisp(AchievementBase):
                 return False
         return count >= 5
 
+# никсельпиксель
+class GoldenNicka(AchievementBase):
+    name = 'Золотая Ника'
+    levels = [3, 15, 50]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains(msg, 'хуемразь')
+
+# паста про суп 
+class Dad(AchievementBase):
+    name = 'Батя'
+    levels = [30, 70, 150]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains(msg, 'бля')
+
+# упоротый папуг на арбузе 
+class JesusHearMe(AchievementBase):
+    name = 'Есус ты миня слышеш'
+    levels = [5, 15, 70]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains_one_of(msg, ['папуг', 'попугай'])
 
 registered_achievements = [
     Flooder,
@@ -377,7 +400,12 @@ registered_achievements = [
     T800,
     BG,
     SocialWhore,
-    Lisp
+    Lisp,
+    PlusPlus,
+    AddmetoReply,
+    GoldenNicka,
+    Dad,
+    JesusHearMe
 ]
 
 __all__ = ['registered_achievements']
