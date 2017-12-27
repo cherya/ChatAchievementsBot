@@ -293,8 +293,8 @@ class T800(AchievementBase):
 
 
 class AddmetoReply(AchievementBase):
-    name = 'AddmetoReply'
-    levels = [2, 10, 50]
+    name = 'Громозека'
+    levels = [2, 15, 50]
 
     def check(self, msg, content_type, counters, cur_level):
         if is_reply(msg):
@@ -303,7 +303,7 @@ class AddmetoReply(AchievementBase):
 
 
 class PlusPlus(AchievementBase):
-    name = 'Плюсист'
+    name = 'Инкремент'
     levels = [3, 15, 50]
 
     def check(self, msg, content_type, counters, cur_level):
@@ -368,7 +368,7 @@ class GoldenNicka(AchievementBase):
 # паста про суп 
 class Dad(AchievementBase):
     name = 'Батя'
-    levels = [5, 15, 70]
+    levels = [30, 70, 150]
 
     def check(self, msg, content_type, counters, cur_level):
         return msg_contains(msg, 'бля')
