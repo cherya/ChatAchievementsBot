@@ -379,7 +379,7 @@ class JesusHearMe(AchievementBase):
     levels = [5, 15, 70]
 
     def check(self, msg, content_type, counters, cur_level):
-        return msg_contains_one_of(msg, 'папуг', 'попугай')
+        return msg_contains_one_of(msg, ['папуг', 'попугай'])
 
 registered_achievements = [
     Flooder,
@@ -401,11 +401,11 @@ registered_achievements = [
     BG,
     SocialWhore,
     Lisp,
-	PlusPlus,
-	AddmetoReply,
-	GoldenNicka,
-	Dad,
-	JesusHearMe
+    PlusPlus,
+    AddmetoReply,
+    GoldenNicka,
+    Dad,
+    JesusHearMe
 ]
 
 __all__ = ['registered_achievements']
