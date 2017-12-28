@@ -2,5 +2,8 @@
 __pycache__/
 config.json
 *.log
+bin/
+include/
+lib/
 /.vs/ChatAchievementsBot/v15/.suo
 /.vs/slnx.sqlite
