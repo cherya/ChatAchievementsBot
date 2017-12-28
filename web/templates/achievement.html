@@ -6,7 +6,9 @@
                 <img src="{{ url_for('static', filename='images/level1_default.png') }}" alt="">
             {% endif %}
         </div>
-
+    {% if achievement.level == 3 %}
+        <div class="glass"></div>
+    {% endif %}
     <div class="achievement-details">
         <div class="achievement-name">{{achievement.achievement.name}}</div>
         {% if achievement.date_achieved %}

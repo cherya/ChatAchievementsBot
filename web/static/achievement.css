@@ -9,10 +9,15 @@
     width: 350px;
     transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
 }
 .achievement:hover {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
     transform: translateY(-1px);
+}
+.achievement:hover .glass {
+   transform: rotateZ(45deg) translateX(420px) translateY(-215px);
 }
 .achievement .achievement-image {
     height: 60px;
@@ -20,6 +25,17 @@
     border-radius: 5px;
     display: block;
     padding-left: 50%;
+}
+
+.glass {
+   position: absolute;
+   transition: transform 0.5s ease-in-out;
+   left: 0;
+   z-index: 10;
+   transform: rotateZ(45deg) translateX(-510px) translateY(-215px);
+   width: 50%;
+   height: 300%;
+   background: linear-gradient(to top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
 }
 
 .achievement .achievement-image img{
@@ -48,8 +64,17 @@
     padding: 5px 0 10px 0;
 }
 
+.achievement-level-1:hover {
+    transform: translateY(0);
+}
+
 .achievement-level-0 {
     filter: grayscale(100%);
+}
+
+.achievement-level-0:hover {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
 }
 
 .achievement-progress{

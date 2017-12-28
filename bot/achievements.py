@@ -287,7 +287,7 @@ class Zombie(AchievementBase):
 
 class T800(AchievementBase):
     name = 'T800'
-    levels = [1, 2, 5, 50]
+    levels = [1, 2, 5, 200]
 
     def check(self, msg, content_type, counters, cur_level):
         return is_forward_from(msg, ADDMETO_CHANNEL) or is_forward_from(msg, TECHSPARKS_CHANNEL)
