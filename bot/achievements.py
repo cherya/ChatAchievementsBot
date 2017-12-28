@@ -382,6 +382,29 @@ class JesusHearMe(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         return msg_contains_one_of(msg, ['папуг', 'попугай'])
 
+# призывы Бобука что бы пожаловаться
+class Mother(AchievementBase):
+    name = 'Ну мааааам!'
+    levels = [2, 10, 100, 500]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_contains_one_of(msg, ['бобук', '@bobuk']) and len(get_msg_text(msg).split(' ')) <= 5
+
+# куча голосовых сообщений
+class BirdIsAWord(AchievementBase):
+    name = 'Птица говорун'
+    levels = [5, 20, 100, 1000]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return content_type == 'voice'
+
+class TwitterMan(AchievementBase):
+    name = 'Твиторский'
+    levels = [3, 20, 100, 500]
+
+    def check(self, msg, content_type, counters, cur_level):
+        return msg_equals(msg, 'ты пидор')
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -406,7 +429,10 @@ registered_achievements = [
     AddmetoReply,
     GoldenNicka,
     Dad,
-    JesusHearMe
+    JesusHearMe,
+    Mother,
+    BirdIsAWord,
+    TwitterMan
 ]
 
 __all__ = ['registered_achievements']
