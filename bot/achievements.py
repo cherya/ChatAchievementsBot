@@ -1,4 +1,6 @@
 import re
+from datetime import datetime
+import time
 
 ADDMETO_CHANNEL = -1001005993407
 TECHSPARKS_CHANNEL = -1001009962628
@@ -405,6 +407,16 @@ class TwitterMan(AchievementBase):
     def check(self, msg, content_type, counters, cur_level):
         return msg_equals(msg, 'ты пидор')
 
+NEW_YEAR_START = 1514754000
+NEW_YEAR_END = 1514754300
+class President(AchievementBase):
+    name = 'Прeзидент 2018'
+    levels = [1]
+
+    def check(self, msg, content_type, counters, cur_level):
+        now = int(msg['date'])
+        return (now >= NEW_YEAR_START) and (now <= NEW_YEAR_END)
+
 registered_achievements = [
     Flooder,
     StickerSpammer,
@@ -432,7 +444,8 @@ registered_achievements = [
     JesusHearMe,
     Mother,
     BirdIsAWord,
-    TwitterMan
+    TwitterMan,
+    President
 ]
 
 __all__ = ['registered_achievements']
