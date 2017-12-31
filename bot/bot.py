@@ -23,6 +23,7 @@ class PrettyPrinter(pprint.PrettyPrinter):
             return (object.encode('utf8'), True, False)
         return pprint.PrettyPrinter.format(self, object, context, maxlevels, level)
 
+printer = PrettyPrinter()
 
 def run_bot_loop():
     print('Listening ...')
@@ -41,7 +42,7 @@ def handle_message(msg):
         message = Messages.create(id=msg['message_id'], message=msg, chat_id=chat_id, content_type=content_type)
         message.save()
         database.close()
-        PrettyPrinter.pprint(msg)
+        printer.pprint(msg)
 
 
 # TODO: handle message edit
