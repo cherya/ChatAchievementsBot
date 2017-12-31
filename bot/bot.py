@@ -1,7 +1,7 @@
 from models.models import *
 from models.db import database
 from config import config
-
+import pprint
 from pprint import pprint
 import telepot
 import logging
@@ -16,6 +16,13 @@ else:
     chats = []
 
 bot = telepot.Bot(token=config['token'])
+
+
+class PrettyPrinter(pprint.PrettyPrinter):
+    def format(self, object, context, maxlevels, level):
+        if isinstance(object, unicode):
+            return (object.encode('utf8'), True, False)
+        return pprint.PrettyPrinter.format(self, object, context, maxlevels, level)
 
 
 def run_bot_loop():
@@ -35,7 +42,7 @@ def handle_message(msg):
         message = Messages.create(id=msg['message_id'], message=msg, chat_id=chat_id, content_type=content_type)
         message.save()
         database.close()
-        pprint(msg)
+        PrettyPrinter.pprint(msg)
 
 
 # TODO: handle message edit
