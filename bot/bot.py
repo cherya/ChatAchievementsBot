@@ -2,7 +2,6 @@ from models.models import *
 from models.db import database
 from config import config
 import pprint
-from pprint import pprint
 import telepot
 import logging
 import os
