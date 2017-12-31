@@ -21,7 +21,8 @@ def last_day_of_month(any_day):
 
 
 def update():
-    database.connect()
+    if database.is_closed():
+        database.connect()
     messages = Messages.select().order_by(Messages.date)
     # for every new message
     for message in messages:
@@ -38,7 +39,8 @@ def update():
         if achieved:
             handle_achievements(user, achievements, msg)
     Messages.delete().where(Messages.id.in_(messages)).execute()
-    database.close()
+    if not database.is_closed():
+        database.close()
 
 
 def update_statistic(msg):

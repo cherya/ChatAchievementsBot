@@ -91,7 +91,8 @@ def before_request():
 
 @app.after_request
 def after_request(response):
-    g.db.close()
+    if not g.db.is_closed():
+        g.db.close()
     return response
 
 
