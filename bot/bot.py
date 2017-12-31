@@ -38,10 +38,12 @@ def handle_message(msg):
     content_type, chat_type, chat_id = telepot.glance(msg, flavor=flavor)
     if len(chats) == 0 or chat_id in chats:
         # just save every message
-        database.connect()
+        if database.is_closed():
+            database.connect()
         message = Messages.create(id=msg['message_id'], message=msg, chat_id=chat_id, content_type=content_type)
         message.save()
-        database.close()
+        if not database.is_closed():
+            database.close()
         printer.pprint(msg)
 
 
