@@ -20,7 +20,7 @@ bot = telepot.Bot(token=config['token'])
 class PrettyPrinter(pprint.PrettyPrinter):
     def format(self, object, context, maxlevels, level):
         if isinstance(object, str):
-            return (object.encode('utf8'), True, False)
+            return (object.encode('utf8').decode(), True, False)
         return pprint.PrettyPrinter.format(self, object, context, maxlevels, level)
 
 printer = PrettyPrinter()
