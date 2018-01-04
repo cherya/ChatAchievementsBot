@@ -5,6 +5,7 @@ import pprint
 import telepot
 import logging
 import os
+from peewee import IntegrityError
 
 dir_name = os.path.dirname(os.path.abspath(__file__))
 logging.basicConfig(filename=dir_name+'/bot.log', level=logging.INFO, format='%(levelname)s:%(message)s')
