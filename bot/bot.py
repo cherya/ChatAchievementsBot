@@ -40,8 +40,11 @@ def handle_message(msg):
         # just save every message
         if database.is_closed():
             database.connect()
-        message = Messages.create(id=msg['message_id'], message=msg, chat_id=chat_id, content_type=content_type)
-        message.save()
+        try:
+            message = Messages.create(id=msg['message_id'], message=msg, chat_id=chat_id, content_type=content_type)
+            message.save()
+        except IntegrityError:
+            database.rollback()
         if not database.is_closed():
             database.close()
         printer.pprint(msg)
